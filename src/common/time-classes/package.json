@@ -1,0 +1,25 @@
+{
+  "name": "time-classes",
+  "version": "1.9.0",
+  "description": "",
+  "main": "time-classes.js",
+  "types": "time-classes.d.ts",
+  "typings": "time-classes.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "ts-loader": "^4.4.1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/core": "^7.0.0-beta.50",
+    "@babel/preset-env": "^7.0.0-beta.50",
+    "babel-loader": "^8.0.0-beta.3",
+    "typescript": "^2.9.1",
+    "webpack": "^4.12.0"
+  }
+}
+
