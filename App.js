@@ -1,11 +1,13 @@
 
 import React from 'react';
-import { StyleSheet, View } from 'react-native'
-import PrayerChart from './src/Prayer'
+import { StyleSheet, View, Dimensions } from 'react-native'
+import PrayerChart from './src/PrayerChart'
 import PrayerTimer from './src/PrayerTimer'
 import { Location, Permissions } from 'expo'
 import { DateTime, Interval } from 'luxon'
 import getData from './src/data'
+
+
 export default class App extends React.Component {
   constructor(props) {
     super(props)
@@ -24,7 +26,6 @@ export default class App extends React.Component {
 
 
     this.tick = () => {
-
       this.setState(prevState => {
 
         return {
@@ -50,23 +51,28 @@ export default class App extends React.Component {
 
   render() {
 
-    
+
 
     //using short circuit technique...
     //don't render until ready
     const ready = this.state.coords && this.state.interval
     return ready && (
-      <View>
-        <View style={styles.header}></View>
-        <PrayerTimer {...this.nextPrayer()} />
-        <View>
-          <PrayerChart
+      //setting the outermost view {flex: 1}
+      //is important so the entire app spreads
+      //the length of the screen
+      <View style={{ flex: 1 }}>
 
-            style={styles.chart}
-            coords={this.state.coords}
-            date={this.state.interval.start.toJSDate()}
-          ></PrayerChart>
+        <View style={styles.header}>
+
         </View>
+        <PrayerTimer {...this.nextPrayer()} />
+
+
+        <PrayerChart
+          coords={this.state.coords}
+          date={this.state.interval.start.startOf('day').toJSDate()}
+        />
+
       </View>
 
     )
@@ -105,7 +111,7 @@ export default class App extends React.Component {
     /// get the prayer that comes next 
     let names = data.map(i => i.name).concat(["fajr"]); //gotta add next day fajr
     let times = data.map(i => {
-      return i.time;
+      return i.time.start
     }).concat(
       //add the next day's fajr time
       data.filter(i => i.name == "isha").map(i => i.time.end)
@@ -116,6 +122,7 @@ export default class App extends React.Component {
     let min = Math.min(...times.filter(i => i >= DateTime.local()));
 
     const nextPrayerTime = times.filter(i => i == min)[0];
+
     return {
       nextPrayerName: names[times.indexOf(nextPrayerTime)],
       interval: DateTime.local().until(nextPrayerTime)
@@ -130,6 +137,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+
   },
   header: {
     marginTop: '10%'
@@ -137,9 +145,6 @@ const styles = StyleSheet.create({
   redText: {
     color: "red"
   },
-  chart: {
-    flex: 1,
-    alignSelf: 'stretch',
-    height: 900
-  }
+
+
 });

@@ -3,6 +3,8 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { DateTime } from 'luxon'
 
+import SText from './SText'
+
 export default class PrayerTimer extends React.Component {
     constructor(props) {
         super(props)
@@ -14,15 +16,15 @@ export default class PrayerTimer extends React.Component {
 
 
         return ready && (
-            <View style={timerStyle.cont}>
+            <View style={[timerStyle.cont, this.props.style]}>
 
                 <View style={timerStyle.now}>
-                    <Text>{this.formatNow()}</Text>
+                    <SText>{this.formatNow()}</SText>
                 </View>
 
                 <View style={timerStyle.until}>
-                    <Text>Next Prayer: {this.props.nextPrayerName}</Text>
-                    <Text>{this.timeUntilNextPrayer()}</Text>
+                    <SText capitalize={true}>Next Prayer: {this.props.nextPrayerName}</SText>
+                    <SText>{this.timeUntilNextPrayer()}</SText>
                 </View>
             </View>
         )
@@ -36,7 +38,7 @@ export default class PrayerTimer extends React.Component {
     }
 
     formatNow() {
-        return this.props.interval.start.toLocaleString(DateTime.TIME_SIMPLE)
+        return this.props.interval.start.toLocaleString(DateTime.DATETIME_SHORT)
     }
 }
 
