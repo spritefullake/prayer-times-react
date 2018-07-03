@@ -5,8 +5,8 @@ import Prayer from './Prayer'
 import { DateTime, Interval } from 'luxon'
 import getData from './data'
 import SText from './SText'
-
-
+import {getSizing} from './utils'
+import NowMarker from './NowMarker'
 
 
 export default class PrayerChart extends React.Component {
@@ -23,11 +23,11 @@ export default class PrayerChart extends React.Component {
         //the group of prayers starting at the day ends
         const ishaEnd = getData(this.props.date, this.props.coords).filter(i => i.name == "isha").map(i => i.time.end)
 
-        const intvl = Interval.fromDateTimes(DateTime.local().startOf('day'),
+        const chartSpan = Interval.fromDateTimes(DateTime.local().startOf('day'),
             ...ishaEnd
         )
 
-        const rd = this.renderPrayerData(intvl)
+        const rd = this.renderPrayerData(chartSpan)
 
         const pData = (this.props.date && this.props.coords ? rd : mockData).map(i => {
             return {
@@ -35,6 +35,8 @@ export default class PrayerChart extends React.Component {
                 key: i.name
             }
         })
+
+        
 
         return (
 
@@ -52,6 +54,7 @@ export default class PrayerChart extends React.Component {
                         top={item.top} />)
                 })}
 
+                <NowMarker interval={chartSpan} />
 
             </View>
 
@@ -71,24 +74,10 @@ export default class PrayerChart extends React.Component {
 
         //choose how many decimal places we will
         //round to by setting the # of zeros after 1
-
+        const decPlaces = 1000;
         //more places means more precision
         //with respect to rendering 
-        const decPlaces = 1000
-
-        const tops = data.map(i => i.time).map(invl => {
-            const total = ctx.length('seconds');
-            //get the offset of invl from ctx
-            const offset = ctx.start.diff(invl.start).as('seconds');
-            // offset/total gives the percent offset
-            // multiplying by window height gives us non-percent units
-            return Math.round(Math.abs(offset / total) * decPlaces) / decPlaces;
-        });
-        // heights are given first as what percent one interval is of the ctx
-        // and then the heights are converted to non-percent units
-        const heights = data.map(i => i.time).map(invl => {
-            return Math.round(Math.abs(invl.length('milliseconds') / ctx.length('milliseconds')) * decPlaces) / decPlaces
-        });
+        const { tops, heights } = getSizing(data, ctx, decPlaces);
 
         return data.map((i, index) => {
             return {
@@ -101,6 +90,8 @@ export default class PrayerChart extends React.Component {
     }
 
 }
+
+
 
 
 const mockData = [
@@ -120,3 +111,4 @@ const styles = StyleSheet.create({
 
     }
 })
+
