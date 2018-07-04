@@ -1,10 +1,7 @@
 
 import React from 'react';
-import { StyleSheet, Text, View, FlatList, ScrollList, ScrollView, SectionList } from 'react-native';
-import Prayer from './Prayer'
+import { View } from 'react-native';
 import { DateTime, Interval } from 'luxon'
-import getData from './common/data'
-import SText from './common/SText'
 import {getSizing} from './common/utils'
 
 export default class NowMarker extends React.Component{

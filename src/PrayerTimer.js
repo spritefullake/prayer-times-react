@@ -1,18 +1,18 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { DateTime } from 'luxon'
-
+import { DateTime, Interval } from 'luxon'
 import SText from './common/SText'
 
 export default class PrayerTimer extends React.Component {
     constructor(props) {
         super(props)
+
     }
 
     render() {
 
-        const ready = this.props.interval && this.props.nextPrayerName;
+        const ready = this.props.end && this.props.nextPrayerName;
 
 
         return ready && (
@@ -31,14 +31,17 @@ export default class PrayerTimer extends React.Component {
 
     }
 
+  
+
 
     timeUntilNextPrayer() {
         //localize the date & humanize 
-        return this.props.interval.toDuration(['hours', 'minutes', 'seconds']).toFormat("hh:mm:ss")
+        //simply measure the interval between *start and *end
+        return this.props.start.until(this.props.end).toDuration(['hours', 'minutes', 'seconds']).toFormat("hh:mm:ss")
     }
 
     formatNow() {
-        return this.props.interval.start.toLocaleString(DateTime.DATETIME_SHORT)
+        return this.props.start.toLocaleString(DateTime.DATETIME_SHORT)
     }
 }
 
