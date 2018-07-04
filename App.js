@@ -5,7 +5,7 @@ import PrayerChart from './src/PrayerChart'
 import PrayerTimer from './src/PrayerTimer'
 import { Location, Permissions } from 'expo'
 import { DateTime, Interval } from 'luxon'
-import getData from './src/data'
+import getData from './src/common/data'
 
 
 export default class App extends React.Component {

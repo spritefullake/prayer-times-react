@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { DateTime } from 'luxon'
 
-import SText from './SText'
+import SText from './common/SText'
 
 export default class PrayerTimer extends React.Component {
     constructor(props) {

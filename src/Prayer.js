@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, FlatList, ScrollList, Dimensions } from 'react-native';
 
-import SText from './SText'
+import SText from './common/SText'
 export default class Prayer extends React.Component {
 
     constructor(props) {
