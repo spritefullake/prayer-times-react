@@ -45,7 +45,7 @@ nextPrayer(DateTime.local());
         type: TIMER_NEXT_PRAYER,
         interval: 
 Interval.fromDateTimes(DateTime.local(), nextEnd),
-	name: nextPrayerName
+	nextPrayerName,
     }
 }
 
@@ -142,7 +142,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 //and responds to actions
 //completely pure
 export const rootReducer = (state = initialState, action) => {
-    const { type, interval, coords, name } = 
+    const { type, interval, coords, nextPrayerName } = 
 action;
     switch (type) {
         case START_TIMER:
@@ -163,6 +163,7 @@ action;
             return {
                 ...state,
                 interval,
+                nextPrayerName,
 		name
             };
         default:
