@@ -19,7 +19,14 @@ export default class PrayerView extends React.Component {
     }
 
     this.tick = () => {
-      this.setState({now: DateTime.local()})  
+      this.setState({now: DateTime.local()}, () =>{
+          if(this.state.now.startOf('day') > this.props.date.startOf('day')){
+              this.rollNextDay();
+          }
+          if(this.state.now > this.props.nextPrayerEnd){
+              this.rollNextPrayer();
+          }
+      })  
 
     }
   }
