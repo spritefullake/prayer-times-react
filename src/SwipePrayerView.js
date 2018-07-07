@@ -39,10 +39,13 @@ function startTimer(interval = initialState.interval) {
 }
 function rollNextPrayer() {
 
-    const nextEnd = nextPrayer(DateTime.local()).nextPrayerInterval.end;
+    const { nextPrayerName, nextPrayerEnd } = 
+nextPrayer(DateTime.local());
     return {
         type: TIMER_NEXT_PRAYER,
-        interval: Interval.fromDateTimes(DateTime.local(), nextEnd)
+        interval: 
+Interval.fromDateTimes(DateTime.local(), nextEnd),
+	name: nextPrayerName
     }
 }
 
@@ -139,7 +142,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 //and responds to actions
 //completely pure
 export const rootReducer = (state = initialState, action) => {
-    const { type, interval, coords } = action;
+    const { type, interval, coords, name } = 
+action;
     switch (type) {
         case START_TIMER:
             return {
@@ -159,6 +163,7 @@ export const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 interval,
+		name
             };
         default:
             return state;
