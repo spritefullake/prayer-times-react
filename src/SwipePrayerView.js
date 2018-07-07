@@ -22,6 +22,7 @@ const TIMER_NEXT_PRAYER = "TIMER::NEXT_PRAYER"
 const START_TIMER = "TIMER::START"
 const STOP_TIMER = "TIMER::STOP"
 const RESET_TIMER = "TIMER::RESET"
+const NEXT_DAY = "TIMER::NEXT DAY"
 
 export const initialState = {
     coords: [0, 0],
@@ -59,7 +60,12 @@ function resetTimer() {
     }
 }
 
-
+function nextDay(){
+    return {
+        type: NEXT_DAY,
+        date: DateTime.local(),
+    }
+}
 
 function handleCoords(coords) {
     return {
@@ -73,7 +79,7 @@ const mapStateToProps = ({ coords, date }, ownProps) => {
     return {
         ...ownProps,
         coords,
-        date: date.toJSDate(),
+        date: date.startOf('day').toJSDate(),
         nextPrayerName,
         nextPrayerEnd,
 
@@ -132,6 +138,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         fetchCoords: () => fetchCoords().then(res => dispatch(res)),
         startTicking: () => dispatch(startTimer()),
         rollNextPrayer: () => dispatch(rollNextPrayer()),
+        rollNextDay: () => dispatch(nextDay())
     }
 };
 
@@ -162,6 +169,11 @@ action;
                 nextPrayerName,
                 nextPrayerEnd,
             };
+        case NEXT_DAY:
+            return {
+                ...state,
+                date
+            }
         default:
             return state;
     }
