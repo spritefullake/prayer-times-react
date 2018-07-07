@@ -25,16 +25,14 @@ const RESET_TIMER = "TIMER::RESET"
 
 export const initialState = {
     coords: [0, 0],
-    interval: Interval
-        .fromDateTimes(DateTime.local(),
-            DateTime.local().plus({ days: 1 })),
+    date: DateTime.local(),
 };
 
 
-function startTimer(interval = initialState.interval) {
+function startTimer(date = initialState.date) {
     return {
         type: START_TIMER,
-        interval: Interval.fromDateTimes(DateTime.local(), interval.end),
+        date: DateTime.local()
     }
 }
 function rollNextPrayer() {
@@ -43,9 +41,8 @@ function rollNextPrayer() {
 nextPrayer(DateTime.local());
     return {
         type: TIMER_NEXT_PRAYER,
-        interval: 
-Interval.fromDateTimes(DateTime.local(), nextEnd),
-	nextPrayerName,
+	    nextPrayerName,
+	    nextPrayerEnd,
     }
 }
 
@@ -70,13 +67,13 @@ function handleCoords(coords) {
         coords,
     }
 }
-const mapStateToProps = ({ coords, interval }, ownProps) => {
+const mapStateToProps = ({ coords, date }, ownProps) => {
 
-    const { nextPrayerName, nextPrayerEnd } = nextPrayer({ coords, interval })
+    const { nextPrayerName, nextPrayerEnd } = nextPrayer({ coords, date })
     return {
         ...ownProps,
         coords,
-        date: interval.start.startOf('day').toJSDate(),
+        date: date.toJSDate(),
         nextPrayerName,
         nextPrayerEnd,
 
@@ -84,11 +81,11 @@ const mapStateToProps = ({ coords, interval }, ownProps) => {
 };
 
 
-function nextPrayer({ interval, coords }) {
+function nextPrayer({ date, coords }) {
 
     //first calculate all the next prayer times
     const data = getData(
-        interval.start.toJSDate(), coords,
+        date.toJSDate(), coords,
         Interval.fromDateTimes(DateTime.local().startOf('day'),
             DateTime.local().endOf('day'))
     );
@@ -142,13 +139,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 //and responds to actions
 //completely pure
 export const rootReducer = (state = initialState, action) => {
-    const { type, interval, coords, nextPrayerName } = 
+    const { type, date, coords, nextPrayerName, nextPrayerEnd } = 
 action;
     switch (type) {
         case START_TIMER:
             return {
                 ...state,
-                interval,
+                date,
             };
         case STOP_TIMER:
             return {
@@ -162,9 +159,8 @@ action;
         case TIMER_NEXT_PRAYER:
             return {
                 ...state,
-                interval,
                 nextPrayerName,
-		name
+                nextPrayerEnd,
             };
         default:
             return state;
