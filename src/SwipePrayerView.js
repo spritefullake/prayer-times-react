@@ -79,7 +79,7 @@ const mapStateToProps = ({ coords, date }, ownProps) => {
     return {
         ...ownProps,
         coords,
-        date: date.startOf('day').toJSDate(),
+        date: date.startOf('day'),
         nextPrayerName,
         nextPrayerEnd,
 

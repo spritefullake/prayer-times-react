@@ -40,7 +40,7 @@ export default class PrayerView extends React.Component {
 
         <PrayerChart
           coords={this.props.coords}
-          date={this.props.date} />
+          date={this.props.date.toJSDate()} />
       </View>
     )
   }
