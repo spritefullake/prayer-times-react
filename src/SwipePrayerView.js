@@ -1,33 +1,24 @@
-import React from 'react';
-import { StyleSheet, View, Dimensions } from 'react-native'
+import { START_TIMER, TIMER_NEXT_PRAYER, STOP_TIMER, RESET_TIMER, NEXT_DAY, FETCH_COORDS, FETCHING_COORDS, FETCHED_COORDS } from "./action-types";
 
 import { Location, Permissions } from 'expo'
-import { DateTime, Interval } from 'luxon'
-import getData from './common/data'
+import { DateTime } from 'luxon'
 
 
 
-import { connect, Provider } from 'react-redux'
+import { connect } from 'react-redux'
 
 import PrayerView from './PrayerView'
+import { nextPrayer } from './common/utils'
+
+
+export const initialState = {
+    coords: null,
+    date: DateTime.local(),
+};
 
 
 //This component represents the ability to
 //swipe through days on the prayer chart
-
-//Action Types
-const FETCH_COORDS = "FETCH_COORDS"
-
-const TIMER_NEXT_PRAYER = "TIMER::NEXT_PRAYER"
-const START_TIMER = "TIMER::START"
-const STOP_TIMER = "TIMER::STOP"
-const RESET_TIMER = "TIMER::RESET"
-const NEXT_DAY = "TIMER::NEXT DAY"
-
-export const initialState = {
-    coords: [0, 0],
-    date: DateTime.local(),
-};
 
 
 function startTimer(date = initialState.date) {
@@ -36,14 +27,14 @@ function startTimer(date = initialState.date) {
         date: DateTime.local()
     }
 }
-function rollNextPrayer() {
+function rollNextPrayer(coords) {
 
-    const { nextPrayerName, nextPrayerEnd } = 
-nextPrayer(DateTime.local());
-    return {
-        type: TIMER_NEXT_PRAYER,
-	    nextPrayerName,
-	    nextPrayerEnd,
+        
+    return dispatch => {
+        dispatch({
+            type: TIMER_NEXT_PRAYER,
+            ...autoGrabNext({date: DateTime.local(), coords,}),
+        })
     }
 }
 
@@ -60,7 +51,7 @@ function resetTimer() {
     }
 }
 
-function nextDay(){
+function nextDay() {
     return {
         type: NEXT_DAY,
         date: DateTime.local(),
@@ -69,75 +60,71 @@ function nextDay(){
 
 function handleCoords(coords) {
     return {
-        type: FETCH_COORDS,
+        type: FETCHED_COORDS,
         coords,
     }
 }
 const mapStateToProps = ({ coords, date }, ownProps) => {
 
-    const { nextPrayerName, nextPrayerEnd } = nextPrayer({ coords, date })
+
     return {
         ...ownProps,
         coords,
         date: date.startOf('day'),
-        nextPrayerName,
-        nextPrayerEnd,
-
+        ...autoGrabNext({ coords, date }),
     }
 };
 
 
-function nextPrayer({ date, coords }) {
+function autoGrabNext({ coords, date }) {
+    //error handles the case where 
+    //we haven't located the coordinates
+    //yet 
 
-    //first calculate all the next prayer times
-    const data = getData(
-        date.toJSDate(), coords,
-        Interval.fromDateTimes(DateTime.local().startOf('day'),
-            DateTime.local().endOf('day'))
-    );
-
-    /// get the prayer that comes next 
-    let names = data.map(i => i.name).concat(["fajr"]); //gotta add next day fajr
-    let times = data.map(i => {
-        return i.time.start
-    }).concat(
-        //add the next day's fajr time
-        data.filter(i => i.name == "isha").map(i => i.time.end)
-    );
-
-    //find the smallest time after now
-    //DateTime.local() is in essence == to (new Date())
-    let min = Math.min(...times.filter(i => i >= DateTime.local()));
-
-    const nextPrayerTime = times.filter(i => i == min)[0];
-
-
-    return {
-        nextPrayerName: names[times.indexOf(nextPrayerTime)],
-        nextPrayerEnd: nextPrayerTime
+    if (coords) {
+        return nextPrayer({ coords, date });
+    }
+    else {
+        return { nextPrayerName: null, nextPrayerEnd: null };
     }
 }
 
-async function fetchCoords() {
-    const { status } = await Permissions.askAsync(Permissions.LOCATION)
+function fetchCoords() {
+   //fetchCoords itself cannot be 
+   //an async function because then
+   //it would be returning a promise 
+   //and not a plain object like a function
 
-    const location = await Location.getCurrentPositionAsync(
-        {
-            enableHighAccuracy: true,
-            timeout: 20000,
-            maximumAge: 1000
-        })
 
-    const coords = [location.coords.latitude, location.coords.longitude]
+    return async dispatch => {
+        dispatch({ type: FETCHING_COORDS })
 
-    return handleCoords(coords)
+        try{
+            const { status } = await Permissions.askAsync(Permissions.LOCATION)
+            const location = await Location.getCurrentPositionAsync(
+                {
+                    enableHighAccuracy: true,
+                    timeout: 20000,
+                    maximumAge: 1000
+                })
+
+            const coords = [location.coords.latitude, location.coords.longitude]
+
+            dispatch(handleCoords(coords))
+
+        }
+        catch(err){
+            dispatch({type: "ERROR" })
+        }
+
+    }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
-        fetchCoords: () => fetchCoords().then(res => dispatch(res)),
+        fetchCoords: () => dispatch(fetchCoords()),
         startTicking: () => dispatch(startTimer()),
-        rollNextPrayer: () => dispatch(rollNextPrayer()),
+        rollNextPrayer: () => dispatch(rollNextPrayer(ownProps.coords)),
         rollNextDay: () => dispatch(nextDay())
     }
 };
@@ -146,8 +133,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 //and responds to actions
 //completely pure
 export const rootReducer = (state = initialState, action) => {
-    const { type, date, coords, nextPrayerName, nextPrayerEnd } = 
-action;
+    const { type, date, coords, nextPrayerName, nextPrayerEnd } =
+        action;
     switch (type) {
         case START_TIMER:
             return {
@@ -158,7 +145,7 @@ action;
             return {
                 ...state,
             }
-        case FETCH_COORDS:
+        case FETCHED_COORDS:
             return {
                 ...state,
                 coords,

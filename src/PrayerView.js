@@ -21,14 +21,15 @@ export default class PrayerView extends React.Component {
     this.tick = () => {
       this.setState({now: DateTime.local()}, () =>{
           if(this.state.now.startOf('day') > this.props.date.startOf('day')){
-              this.rollNextDay();
+              this.props.rollNextDay();
           }
           if(this.state.now > this.props.nextPrayerEnd){
-              this.rollNextPrayer();
+              this.props.rollNextPrayer();
           }
       })  
 
     }
+  
   }
 
   render() {
@@ -36,7 +37,10 @@ export default class PrayerView extends React.Component {
     const ready = this.props.coords && this.props.date
     return ready && (
       <View style={this.props.style}>
-        <PrayerTimer start={this.state.now} nextPrayerName={this.props.nextPrayerName} end={this.props.nextPrayerEnd} />
+        <PrayerTimer 
+        start={this.state.now} 
+        nextPrayerName={this.props.nextPrayerName} 
+        end={this.props.nextPrayerEnd} />
 
         <PrayerChart
           coords={this.props.coords}
