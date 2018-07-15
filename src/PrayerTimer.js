@@ -17,7 +17,10 @@ export default class PrayerTimer extends React.Component {
 
         this.tick = () => {
             this.setState({ now: DateTime.local() }, () => {
-                if (this.state.now.startOf('day') > this.props.start.startOf('day')) {
+                //only triggers when the today 
+                //date's day is different than
+                //the now date's date
+                if (this.state.now.startOf('day') > this.props.date.startOf('day')) {
                     this.props.rollNextDay();
                 }
                 if (this.state.now > this.props.nextPrayerEnd) {
@@ -35,17 +38,24 @@ export default class PrayerTimer extends React.Component {
 
 
         return ready && (
-            <View style={[timerStyle.cont, this.props.style]}>
+            <View style={[timerStyle.cont]}>
 
-                <View style={timerStyle.now}>
-                    <SText>Now: {this.formatNow()}</SText>
+
+                <View style={timerStyle.nowWrapper}>
+                    <View style={timerStyle.now}>
+                        <SText>Now: {this.formatNow()}</SText>
+                    </View>
+
+                    <View style={timerStyle.until}>
+                        <SText capitalize={true}>Next Prayer: {this.props.nextPrayerName}</SText>
+                        <View style={{ flex: 1 }} />
+                        <SText>{this.timeUntilNextPrayer()}</SText>
+
+                    </View>
                 </View>
 
-                <View style={timerStyle.until}>
-                    <SText capitalize={true}>Next Prayer: {this.props.nextPrayerName}</SText>
-                    <View style={{ flex: 1 }} />
-                    <SText>{this.timeUntilNextPrayer()}</SText>
-
+                <View style={timerStyle.chartDate}>
+                    <SText>{this.formatCurrentChart()}</SText>
                 </View>
             </View>
         )
@@ -73,13 +83,20 @@ export default class PrayerTimer extends React.Component {
     formatNow() {
         return this.state.now.toLocaleString(DateTime.DATETIME_SHORT)
     }
+
+    formatCurrentChart() {
+        return this.props.currentChartDate.toLocaleString(DateTime.DATE_MED)
+    }
 }
 
 const timerStyle = {
     cont: {
         flexDirection: 'column',
         //alignItems: 'baseline',
-        padding: 10
+    },
+    nowWrapper: {
+        padding: 10,
+        flexDirection: 'column',
     },
     now: {
         justifyContent: 'center',
@@ -91,6 +108,14 @@ const timerStyle = {
         justifyContent: 'space-around',
 
     },
+    chartDate: {
+        alignSelf: 'stretch',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        backgroundColor: "rgba(189,252,100,0.5)",
+        marginLeft: 0,
+        marginBottom: 0,
+    }
 }
 
 

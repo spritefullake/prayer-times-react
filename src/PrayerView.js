@@ -23,11 +23,14 @@ export default class PrayerView extends React.Component {
 
     const chartLimit = 10;
 
+    //the array that forms the flatlist
+    const _data = prayerChartList(this.props.date.startOf('day'), chartLimit);
+
+
     
     return ready && (
       <View style={this.props.style}>
-        <TickingPrayerTimer
-          start={this.props.date} />
+        <TickingPrayerTimer/>
 
 
         <FlatList
@@ -40,13 +43,25 @@ export default class PrayerView extends React.Component {
             this.setState({ width: Math.round(evt.nativeEvent.layout.width) })
           }}
 
+
+          onMomentumScrollEnd={evt => {
+            let w = evt.nativeEvent.layoutMeasurement.width;
+            //the index is found by dividing the offset from the left
+            //by the width of each chart (predetermined)
+            let index = Math.round(evt.nativeEvent.contentOffset.x/w);
+    
+            this.props.handleSwipe(_data[index])
+          }}
+
+   
+
           horizontal
 
           pagingEnabled={true}
 
-          data={prayerChartList(this.props.date.startOf('day'), chartLimit)}
+          data={_data}
 
-          keyExtractor={(item) => item.toLocaleString()}
+          keyExtractor={item => item.toLocaleString()}
 
           getItemLayout={(data, index) => ({
             length: this.state.width,

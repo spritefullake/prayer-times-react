@@ -1,10 +1,14 @@
-import { START_TIMER, TIMER_NEXT_PRAYER, STOP_TIMER, RESET_TIMER, NEXT_DAY, FETCH_COORDS, FETCHING_COORDS, FETCHED_COORDS } from "./action-types";
+import {
+    START_TIMER, STOP_TIMER, RESET_TIMER,
+    DAY_CHANGED, TIMER_NEXT_PRAYER,
+    FETCH_COORDS, FETCHING_COORDS, FETCHED_COORDS,
+    SWIPED_CHART
+} from "./action-types";
 
 import { connect } from 'react-redux'
 
 import { nextPrayer } from './common/utils'
-
-
+import {DateTime} from 'luxon'
 import PrayerTimer from './PrayerTimer'
 
 
@@ -13,16 +17,6 @@ function startTimer() {
         type: START_TIMER,
     }
 }
-
-function rollNextPrayer(coords) {
-    return dispatch => {
-        dispatch({
-            type: TIMER_NEXT_PRAYER,
-            ...autoGrabNext({ date: DateTime.local(), coords, }),
-        })
-    }
-}
-
 
 function stopTimer() {
     return {
@@ -38,29 +32,19 @@ function resetTimer() {
 
 function nextDay() {
     return {
-        type: NEXT_DAY,
+        type: DAY_CHANGED,
         date: DateTime.local(),
     }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => {
-    return {
-        startTicking: () => dispatch(startTimer()),
-        rollNextPrayer: () => dispatch(rollNextPrayer(ownProps.coords)),
-        rollNextDay: () => dispatch(nextDay())
+function rollNextPrayer(coords) {
+    return dispatch => {
+        dispatch({
+            type: TIMER_NEXT_PRAYER,
+            ...autoGrabNext({ date: DateTime.local(), coords, }),
+        })
     }
 }
-
-
-const mapStateToProps = ({ coords, date }, ownProps) => {
-
-
-    return {
-        ...ownProps,
-        ...autoGrabNext({ coords, date }),
-    }
-};
-
 
 function autoGrabNext({ coords, date }) {
     //error handles the case where 
@@ -74,5 +58,29 @@ function autoGrabNext({ coords, date }) {
         return { nextPrayerName: null, nextPrayerEnd: null };
     }
 }
+
+
+
+//two linking constants between redux & react
+
+
+//dispatches inform the store of when an action happens
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        startTicking: () => dispatch(startTimer()),
+        rollNextPrayer: () => dispatch(rollNextPrayer(ownProps.coords)),
+        rollNextDay: () => dispatch(nextDay())
+    }
+}
+
+const mapStateToProps = ({ coords, date, currentChartDate }, ownProps) => {
+    return {
+        ...ownProps,
+        currentChartDate,
+        date,
+        ...autoGrabNext({ coords, date }),
+    }
+};
+
 
 export const TickingPrayerTimer = connect(mapStateToProps, mapDispatchToProps)(PrayerTimer)

@@ -1,19 +1,24 @@
-import { START_TIMER, TIMER_NEXT_PRAYER, STOP_TIMER, RESET_TIMER, NEXT_DAY, FETCH_COORDS, FETCHING_COORDS, FETCHED_COORDS } from "./action-types";
+import { 
+    START_TIMER,  STOP_TIMER, RESET_TIMER, 
+    DAY_CHANGED, TIMER_NEXT_PRAYER,
+    FETCH_COORDS, FETCHING_COORDS, FETCHED_COORDS,
+    SWIPED_CHART } from "./action-types";
 
 import { Location, Permissions } from 'expo'
 import { DateTime } from 'luxon'
 
-
-
 import { connect } from 'react-redux'
 
 import PrayerView from './PrayerView'
-import { nextPrayer } from './common/utils'
 
 
 export const initialState = {
     coords: null,
+    //date represents today's date
     date: DateTime.local(),
+    //the date represented by the current chart
+    //it can change depending on how the chart is swiped
+    currentChartDate: DateTime.local(),
 };
 
 
@@ -27,17 +32,6 @@ function handleCoords(coords) {
         coords,
     }
 }
-const mapStateToProps = ({ coords, date }, ownProps) => {
-
-
-    return {
-        ...ownProps,
-        coords,
-        date: date.startOf('day'),
-    }
-};
-
-
 
 function fetchCoords() {
    //fetchCoords itself cannot be 
@@ -70,9 +64,29 @@ function fetchCoords() {
     }
 }
 
+function handleSwipe(dateSwipedTo){
+    return {
+        type: SWIPED_CHART,
+        currentChartDate: dateSwipedTo,
+    };
+}
+
+//two important variables
+//that connect the redux 
+//state to the react component props
+const mapStateToProps = ({ coords, date, currentChartDate }, ownProps) => {
+    return {
+        ...ownProps,
+        coords,
+        currentChartDate: currentChartDate.startOf('day'),
+        date: date.startOf('day'),
+    }
+};
+
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         fetchCoords: () => dispatch(fetchCoords()),
+        handleSwipe: d => dispatch(handleSwipe(d)),
     }
 };
 
@@ -80,8 +94,16 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 //and responds to actions
 //completely pure
 export const rootReducer = (state = initialState, action) => {
-    const { type, date, coords, nextPrayerName, nextPrayerEnd } =
-        action;
+    const { 
+
+        type, 
+        date, coords, 
+        nextPrayerName, nextPrayerEnd, 
+        currentChartDate,
+
+    } = action;
+
+
     switch (type) {
         case STOP_TIMER:
             return {
@@ -98,10 +120,15 @@ export const rootReducer = (state = initialState, action) => {
                 nextPrayerName,
                 nextPrayerEnd,
             };
-        case NEXT_DAY:
+        case DAY_CHANGED:
             return {
                 ...state,
                 date
+            }
+        case SWIPED_CHART:
+            return {
+                ...state,
+                currentChartDate,
             }
         default:
             return state;

@@ -98,9 +98,20 @@ export default class PrayerChart extends React.Component {
         //with respect to rendering 
         const { tops, heights } = getSizing(data, ctx, decPlaces);
 
+
+        data[0].time = Interval.fromDateTimes(...getData(this.props.date.minus({ days: 1 }).toJSDate(), this.props.coords)
+        .filter(i => i.name == "isha")
+        .map(i => i.time.start),
+    data[1].time.start
+    )
+
         return data.map((i, index, arr) => {
-            if (i.name == "isha" && i.time.abutsStart(
-                ...arr.filter(i => i.name == "fajr").map(i => i.time))) {
+
+
+/*
+
+            if (i.name == "isha" && i.time.end == arr.filter(i => i.name = "fajr")
+        .map(i => i.time.start)[0] ) {
                 //patching in the starting time
                 //for the isha that started the
                 //previous day by changing the 
@@ -116,9 +127,10 @@ export default class PrayerChart extends React.Component {
                         ))
                         .map(i => i.time.end)
                 );
-
+                console.log("ISHA TIME CHASNE")
                 i.time = revisedIshaTime;
             }
+            */
 
 
             return {
