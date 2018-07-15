@@ -136,11 +136,6 @@ export const rootReducer = (state = initialState, action) => {
     const { type, date, coords, nextPrayerName, nextPrayerEnd } =
         action;
     switch (type) {
-        case START_TIMER:
-            return {
-                ...state,
-                date,
-            };
         case STOP_TIMER:
             return {
                 ...state,

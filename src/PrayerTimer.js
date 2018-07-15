@@ -19,12 +19,14 @@ export default class PrayerTimer extends React.Component {
             <View style={[timerStyle.cont, this.props.style]}>
 
                 <View style={timerStyle.now}>
-                    <SText>{this.formatNow()}</SText>
+                    <SText>Now: {this.formatNow()}</SText>
                 </View>
 
                 <View style={timerStyle.until}>
                     <SText capitalize={true}>Next Prayer: {this.props.nextPrayerName}</SText>
+                    <View style={{flex: 1}}/>
                     <SText>{this.timeUntilNextPrayer()}</SText>
+     
                 </View>
             </View>
         )
@@ -48,14 +50,17 @@ export default class PrayerTimer extends React.Component {
 const timerStyle = {
     cont: {
         flexDirection: 'column',
+        //alignItems: 'baseline',
+        padding: 10
     },
     now: {
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: '5%'
+        marginBottom: '5%',
     },
     until: {
         flexDirection: 'row',
-        justifyContent: 'space-around'
+        justifyContent: 'space-around',
+        
     },
 }

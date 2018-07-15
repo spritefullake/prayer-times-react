@@ -22,8 +22,7 @@ export default class NowMarker extends React.Component{
         };
 
         //if the interval is not spanning today, hide the NowMarker
-        const ready = this.props.interval.start.startOf('day').toLocaleString(DateTime.DATETIME_SHORT) == DateTime.local().startOf('day').toLocaleString(DateTime.DATETIME_SHORT) 
-        ? true : null;
+        const ready = this.props.interval.start.toLocaleString(DateTime.DATE_SHORT) == DateTime.local().toLocaleString(DateTime.DATE_SHORT);
 
         return ready && (
             <View style={{...nowSize,backgroundColor: "black", position: 'absolute', width: '10%'}}/>

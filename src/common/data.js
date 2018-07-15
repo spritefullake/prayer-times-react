@@ -54,6 +54,8 @@ function processPrayers(date, coords) {
   
   Implmented using the Time class which will later
   be converted into an on-screen representation*/
+
+  
   return (
 
     prayers
@@ -62,7 +64,7 @@ function processPrayers(date, coords) {
       //create the Time objects
       .map((time, index, arr) => {
         let nextTime;
-        let todayStart = DateTime.local().startOf('day');
+        let todayStart = DateTime.fromJSDate(date).startOf('day');
         /* the next times will be in the format of javascript date objects */
         if (time == times["fajr"]) {
           //fajr ends at sunrise
