@@ -4,7 +4,7 @@ import { DateTime, Interval } from 'luxon'
 
 
 import PrayerChart from './PrayerChart'
-import PrayerTimer from './PrayerTimer'
+import {TickingPrayerTimer} from './TickingPrayerTimer'
 
 import nextPrayer from './common/data'
 
@@ -14,26 +14,8 @@ export default class PrayerView extends React.Component {
   constructor(props) {
     super(props)
 
-
-    this.state = {
-      now: DateTime.local()
-    }
-
-    this.tick = () => {
-      this.setState({ now: DateTime.local() }, () => {
-        if (this.state.now.startOf('day') > this.props.date.startOf('day')) {
-          this.props.rollNextDay();
-        }
-        if (this.state.now > this.props.nextPrayerEnd) {
-          this.props.rollNextPrayer();
-        }
-      })
-
-    }
-
+    this.state = {width: null}
   }
-
-
 
   render() {
 
@@ -44,10 +26,8 @@ export default class PrayerView extends React.Component {
     
     return ready && (
       <View style={this.props.style}>
-        <PrayerTimer
-          start={this.state.now}
-          nextPrayerName={this.props.nextPrayerName}
-          end={this.props.nextPrayerEnd} />
+        <TickingPrayerTimer
+          start={this.props.date} />
 
 
         <FlatList
@@ -78,7 +58,6 @@ export default class PrayerView extends React.Component {
           initialScrollIndex={Math.floor(chartLimit / 2)}
 
           renderItem={({ item }) => {
-            console.log("RENDERING LIST")
             return (
               <PrayerChart
                 style={{ width: this.state.width }}
@@ -95,16 +74,6 @@ export default class PrayerView extends React.Component {
     )
   }
 
-  componentDidMount() {
-    this.props.startTicking()
-    this.timerId = setInterval(() => this.tick(), 1000)
-
-    //the arrow function is important in setInterval
-    //this.timer = setInterval(() => this.tick(), 1000)
-  }
-  componentWillUnmount() {
-    clearInterval(this.timerId)
-  }
 
 
   async componentWillMount() {

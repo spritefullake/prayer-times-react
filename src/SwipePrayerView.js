@@ -21,43 +21,6 @@ export const initialState = {
 //swipe through days on the prayer chart
 
 
-function startTimer(date = initialState.date) {
-    return {
-        type: START_TIMER,
-        date: DateTime.local()
-    }
-}
-function rollNextPrayer(coords) {
-
-        
-    return dispatch => {
-        dispatch({
-            type: TIMER_NEXT_PRAYER,
-            ...autoGrabNext({date: DateTime.local(), coords,}),
-        })
-    }
-}
-
-
-function stopTimer() {
-    return {
-        type: STOP_TIMER
-    }
-}
-
-function resetTimer() {
-    return {
-        type: RESET_TIMER
-    }
-}
-
-function nextDay() {
-    return {
-        type: NEXT_DAY,
-        date: DateTime.local(),
-    }
-}
-
 function handleCoords(coords) {
     return {
         type: FETCHED_COORDS,
@@ -71,23 +34,10 @@ const mapStateToProps = ({ coords, date }, ownProps) => {
         ...ownProps,
         coords,
         date: date.startOf('day'),
-        ...autoGrabNext({ coords, date }),
     }
 };
 
 
-function autoGrabNext({ coords, date }) {
-    //error handles the case where 
-    //we haven't located the coordinates
-    //yet 
-
-    if (coords) {
-        return nextPrayer({ coords, date });
-    }
-    else {
-        return { nextPrayerName: null, nextPrayerEnd: null };
-    }
-}
 
 function fetchCoords() {
    //fetchCoords itself cannot be 
@@ -123,9 +73,6 @@ function fetchCoords() {
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         fetchCoords: () => dispatch(fetchCoords()),
-        startTicking: () => dispatch(startTimer()),
-        rollNextPrayer: () => dispatch(rollNextPrayer(ownProps.coords)),
-        rollNextDay: () => dispatch(nextDay())
     }
 };
 
