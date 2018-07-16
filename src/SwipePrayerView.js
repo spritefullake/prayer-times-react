@@ -1,10 +1,11 @@
+import { fetchCoords, handleSwipe } from "./action-creators";
+
 import { 
     START_TIMER,  STOP_TIMER, RESET_TIMER, 
     DAY_CHANGED, TIMER_NEXT_PRAYER,
-    FETCH_COORDS, FETCHING_COORDS, FETCHED_COORDS,
+    FETCH_COORDS, FETCHED_COORDS,
     SWIPED_CHART } from "./action-types";
 
-import { Location, Permissions } from 'expo'
 import { DateTime } from 'luxon'
 
 import { connect } from 'react-redux'
@@ -19,74 +20,31 @@ export const initialState = {
     //the date represented by the current chart
     //it can change depending on how the chart is swiped
     currentChartDate: DateTime.local(),
+    //the current chart index
+    //and the number of charts 
+    //to be rendered initially 
+    index: 5,
+    limit: 10
 };
 
 
-//This component represents the ability to
-//swipe through days on the prayer chart
-
-
-function handleCoords(coords) {
-    return {
-        type: FETCHED_COORDS,
-        coords,
-    }
-}
-
-function fetchCoords() {
-   //fetchCoords itself cannot be 
-   //an async function because then
-   //it would be returning a promise 
-   //and not a plain object like a function
-
-
-    return async dispatch => {
-        dispatch({ type: FETCHING_COORDS })
-
-        try{
-            const { status } = await Permissions.askAsync(Permissions.LOCATION)
-            const location = await Location.getCurrentPositionAsync(
-                {
-                    enableHighAccuracy: true,
-                    timeout: 20000,
-                    maximumAge: 1000
-                })
-
-            const coords = [location.coords.latitude, location.coords.longitude]
-
-            dispatch(handleCoords(coords))
-
-        }
-        catch(err){
-            dispatch({type: "ERROR" })
-        }
-
-    }
-}
-
-function handleSwipe(dateSwipedTo){
-    return {
-        type: SWIPED_CHART,
-        currentChartDate: dateSwipedTo,
-    };
-}
 
 //two important variables
 //that connect the redux 
 //state to the react component props
-const mapStateToProps = ({ coords, date, currentChartDate }, ownProps) => {
+const mapStateToProps = ({ coords, date, limit, index }, ownProps) => {
     return {
         ...ownProps,
         coords,
-        currentChartDate: currentChartDate.startOf('day'),
         date: date.startOf('day'),
+        index, limit
     }
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         fetchCoords: () => dispatch(fetchCoords()),
-        handleSwipe: d => dispatch(handleSwipe(d)),
+        handleSwipe: i => dispatch(handleSwipe(i)),
     }
 };
 
@@ -99,7 +57,8 @@ export const rootReducer = (state = initialState, action) => {
         type, 
         date, coords, 
         nextPrayerName, nextPrayerEnd, 
-        currentChartDate,
+        currentChartDate, 
+        index, limit
 
     } = action;
 
@@ -123,12 +82,15 @@ export const rootReducer = (state = initialState, action) => {
         case DAY_CHANGED:
             return {
                 ...state,
-                date
+                date,
+                currentChartDate: date,
             }
         case SWIPED_CHART:
             return {
                 ...state,
                 currentChartDate,
+                index,
+
             }
         default:
             return state;

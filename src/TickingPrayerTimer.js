@@ -1,8 +1,10 @@
+import { handleSwipe } from './action-creators';
+
 import {
     START_TIMER, STOP_TIMER, RESET_TIMER,
     DAY_CHANGED, TIMER_NEXT_PRAYER,
     FETCH_COORDS, FETCHING_COORDS, FETCHED_COORDS,
-    SWIPED_CHART
+    SWIPED_CHART, SWIPE_TO_NOW
 } from "./action-types";
 
 import { connect } from 'react-redux'
@@ -60,7 +62,6 @@ function autoGrabNext({ coords, date }) {
 }
 
 
-
 //two linking constants between redux & react
 
 
@@ -69,14 +70,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         startTicking: () => dispatch(startTimer()),
         rollNextPrayer: () => dispatch(rollNextPrayer(ownProps.coords)),
-        rollNextDay: () => dispatch(nextDay())
+        rollNextDay: () => dispatch(nextDay()),
     }
 }
 
 const mapStateToProps = ({ coords, date, currentChartDate }, ownProps) => {
     return {
         ...ownProps,
-        currentChartDate,
         date,
         ...autoGrabNext({ coords, date }),
     }

@@ -12,3 +12,4 @@ export const DAY_CHANGED = "TIMER::DAY CHANGED";
 export const TIMER_NEXT_PRAYER = "TIMER::NEXT_PRAYER";
 
 export const SWIPED_CHART = "CHART::SWIPED";
+export const SWIPE_TO_NOW = "CHART::SWIPE BACK TO NOW";

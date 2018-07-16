@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
 
 import { DateTime, Interval } from 'luxon'
 import SText from './common/SText'
@@ -53,10 +53,6 @@ export default class PrayerTimer extends React.Component {
 
                     </View>
                 </View>
-
-                <View style={timerStyle.chartDate}>
-                    <SText>{this.formatCurrentChart()}</SText>
-                </View>
             </View>
         )
 
@@ -83,10 +79,6 @@ export default class PrayerTimer extends React.Component {
     formatNow() {
         return this.state.now.toLocaleString(DateTime.DATETIME_SHORT)
     }
-
-    formatCurrentChart() {
-        return this.props.currentChartDate.toLocaleString(DateTime.DATE_MED)
-    }
 }
 
 const timerStyle = {
@@ -108,14 +100,6 @@ const timerStyle = {
         justifyContent: 'space-around',
 
     },
-    chartDate: {
-        alignSelf: 'stretch',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        backgroundColor: "rgba(189,252,100,0.5)",
-        marginLeft: 0,
-        marginBottom: 0,
-    }
 }
 
 
