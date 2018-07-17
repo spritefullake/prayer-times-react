@@ -1,16 +1,15 @@
 import { fetchCoords, handleSwipe } from "./action-creators";
-
 import { 
     START_TIMER,  STOP_TIMER, RESET_TIMER, 
     DAY_CHANGED, TIMER_NEXT_PRAYER,
     FETCH_COORDS, FETCHED_COORDS,
-    SWIPED_CHART } from "./action-types";
+    SWIPED_CHART,
+    LOCATION_OFF } from "../../action-types";
 
 import { DateTime } from 'luxon'
-
 import { connect } from 'react-redux'
 
-import PrayerView from './PrayerView'
+import PrayerView from '../PrayerView/PrayerView'
 
 
 export const initialState = {
@@ -92,6 +91,9 @@ export const rootReducer = (state = initialState, action) => {
                 index,
 
             }
+
+
+
         default:
             return state;
     }

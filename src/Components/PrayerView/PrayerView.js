@@ -3,11 +3,9 @@ import { StyleSheet, View, Dimensions, FlatList, Text } from 'react-native'
 import { DateTime, Interval } from 'luxon'
 
 
-import PrayerChart from './PrayerChart'
-import { TickingPrayerTimer } from './TickingPrayerTimer'
-import { CurrentChartDisplay } from './CurrentChartDisplay'
-
-import nextPrayer from './common/data'
+import PrayerChart from '../../Components/PrayerView/PrayerChart'
+import { TickingPrayerTimer } from '../PrayerTimer/TickingPrayerTimer'
+import { CurrentChartDisplay } from '../ChartDisplay/CurrentChartDisplay'
 
 //component holds all the prayer related components
 //will be hooked into redux container
@@ -24,9 +22,6 @@ export default class PrayerView extends React.Component {
 
     const ready = this.props.coords && this.props.date.startOf('day');
 
-    const chartLimit = 10;
-    const initIndex = Math.floor(chartLimit / 2);
-
     //the array that forms the flatlist
     const _data = prayerChartList(this.props.date.startOf('day'), this.props.limit);
 
@@ -38,6 +33,11 @@ export default class PrayerView extends React.Component {
 
         />
          <CurrentChartDisplay
+         //using _data instead of just the flatlist ref
+         //prevents the component from relying purely on
+         //the ref for data in render; instead, the data
+         //can be waited on from the parent rather than
+         //introducing extreme sibling dependency
         data={_data} scroller={this.chartsFlatList}/> 
 
         <FlatList

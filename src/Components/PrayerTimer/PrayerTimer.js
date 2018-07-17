@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 
 import { DateTime, Interval } from 'luxon'
-import SText from './common/SText'
+import SText from '../../common/SText'
 
 
 
@@ -43,7 +43,7 @@ export default class PrayerTimer extends React.Component {
 
                 <View style={timerStyle.nowWrapper}>
                     <View style={timerStyle.now}>
-                        <SText>Now: {this.formatNow()}</SText>
+                        <SText>{this.formatNow()}</SText>
                     </View>
 
                     <View style={timerStyle.until}>

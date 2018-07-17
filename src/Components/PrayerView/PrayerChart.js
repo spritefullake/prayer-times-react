@@ -3,9 +3,8 @@ import React from 'react';
 import { StyleSheet, Text, View, FlatList, ScrollList, ScrollView, SectionList } from 'react-native';
 import Prayer from './Prayer'
 import { DateTime, Interval } from 'luxon'
-import getData from './common/data'
-import SText from './common/SText'
-import { getSizing } from './common/utils'
+import getData from '../../common/data'
+import { getSizing } from '../../common/utils'
 import NowMarker from './NowMarker'
 
 

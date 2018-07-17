@@ -10,7 +10,7 @@ import { connect, Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 import { createLogger } from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
-import { rootReducer, initialState, SwipePrayerView } from './src/SwipePrayerView'
+import { rootReducer, initialState, SwipePrayerView } from './src/Components/PrayerView/SwipePrayerView'
 
 const logger = createLogger();
 
@@ -27,8 +27,8 @@ export default class App extends React.Component {
 
   render() {
 
-//
-     //<CoordPrompt />
+    //
+    //<CoordPrompt />
     //using short circuit technique...
     //don't render until ready 
     //setting the outermost view {flex: 1}
@@ -37,19 +37,16 @@ export default class App extends React.Component {
 
     return (
       <Provider store={appStore}>
-
         <View style={{ flex: 1 }}>
 
           <View style={styles.header}>
-            
+
           </View>
-        
-          <SwipePrayerView style={{flex: 1}} />
-          
+
+          <SwipePrayerView style={{ flex: 1 }} />
+
 
         </View>
-
-        
       </Provider>
 
     )
@@ -66,7 +63,7 @@ const styles = StyleSheet.create({
 
   },
   header: {
-    marginTop: '10%'
+    flex: 0.1
   },
   redText: {
     color: "red"

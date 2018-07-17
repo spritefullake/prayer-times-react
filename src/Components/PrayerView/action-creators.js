@@ -1,4 +1,5 @@
-import { FETCHING_COORDS, FETCHED_COORDS, SWIPED_CHART } from "./action-types";
+import { FETCHING_COORDS, FETCHED_COORDS, SWIPED_CHART,
+MANUAL_ENTRY } from "../../action-types";
 import { Location, Permissions } from 'expo';
 
 //This component represents the ability to
@@ -9,6 +10,18 @@ function handleCoords(coords) {
         coords,
     };
 }
+
+async function launchCoordPrompt(){
+   //todo 
+}
+
+function handleManualCoords(coords){
+    return {
+        type: MANUAL_ENTRY,
+        coords,
+    }
+}
+
 export function fetchCoords() {
     //fetchCoords itself cannot be 
     //an async function because then
@@ -27,7 +40,8 @@ export function fetchCoords() {
             dispatch(handleCoords(coords));
         }
         catch (err) {
-            dispatch({ type: "ERROR" });
+            await launchCoordPrompt();
+            dispatch(handleManualCoords(coords));
         }
     };
 }
