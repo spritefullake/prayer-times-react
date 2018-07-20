@@ -1,22 +1,62 @@
+import './ReactotronConfig'
+import Reactotron from 'reactotron-react-native'
+
 
 import React from 'react';
-import { StyleSheet, View, Dimensions } from 'react-native'
 
-import { DateTime, Interval } from 'luxon'
+import { StyleSheet, View, Dimensions, AsyncStorage } from 'react-native'
 
-import CoordPrompt from './src/CoordPrompt'
+import { ConnectedCoordPrompt } from "./src/Components/CoordPrompt/ConnectedCoordPrompt";
 
 import { connect, Provider } from 'react-redux'
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
 import { createLogger } from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
-import { rootReducer, initialState, SwipePrayerView } from './src/Components/PrayerView/SwipePrayerView'
+import { SwipePrayerView } from './src/Components/PrayerView/SwipePrayerView'
+
+
+import {rootReducer, } from './src/reducers'
+
+
+import hardSet from 'redux-persist/lib/stateReconciler/hardSet'
+import { persistStore, persistReducer, createTransform, persistCombineReducers } from 'redux-persist'
+// defaults to localStorage for web and AsyncStorage for react-native
+
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
+import { PersistGate } from 'redux-persist/integration/react'
+
+import createSecureStore from "redux-persist-expo-securestore";
+import {SecureStore} from 'expo'
+
+const initialState =  ({
+  coords: null,
+  //the index of the
+  //chart currently displayed
+  index: 5,
+    //the number of charts 
+  //to be rendered initially 
+  limit: 10,
+
+  address: null,
+});
+
+const persistConfig = {
+  key: 'root',
+  //using securestorage becuase
+  //there is a bug with AsyncStorage
+  storage: createSecureStore(),
+  stateReconciler: autoMergeLevel2,
+  debug: true,
+};
+
+const pPreducer = persistReducer(persistConfig, rootReducer)
+
 
 const logger = createLogger();
-
-const appStore = createStore(rootReducer, initialState,
+const appStore = Reactotron.createStore(pPreducer, initialState,
   applyMiddleware(thunkMiddleware, logger)
 )
+const persistor = persistStore(appStore)
 
 
 export default class App extends React.Component {
@@ -24,6 +64,7 @@ export default class App extends React.Component {
     super(props)
 
   }
+
 
   render() {
 
@@ -37,20 +78,25 @@ export default class App extends React.Component {
 
     return (
       <Provider store={appStore}>
-        <View style={{ flex: 1 }}>
+        <PersistGate loading={null} persistor={persistor}>
 
-          <View style={styles.header}>
+          <View style={{ flex: 1 }}>
+
+            <View style={styles.header}>
+              <ConnectedCoordPrompt />
+            </View>
+
+            <SwipePrayerView style={{ flex: 1 }} />
+
 
           </View>
 
-          <SwipePrayerView style={{ flex: 1 }} />
-
-
-        </View>
+        </PersistGate>
       </Provider>
 
     )
   }
+
 
 }
 

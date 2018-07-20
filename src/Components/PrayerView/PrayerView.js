@@ -13,24 +13,28 @@ export default class PrayerView extends React.Component {
   constructor(props) {
     super(props)
 
-    this.state = { width: null }
+    this.state = { width: null, date: DateTime.local()}
 
     this.chartsFlatList = React.createRef();
   }
 
+  rollNextDay(){
+    this.setState({date: DateTime.local()})
+  }
+
   render() {
 
-    const ready = this.props.coords && this.props.date.startOf('day');
+    const ready = this.props.coords && this.state.date
 
     //the array that forms the flatlist
-    const _data = prayerChartList(this.props.date.startOf('day'), this.props.limit);
-
-
+    const _data = prayerChartList(this.state.date, this.props.limit)
+    
 
     return ready && (
       <View style={this.props.style}>
         <TickingPrayerTimer
-
+          onDayChange={this.rollNextDay}
+          date={this.state.date}
         />
          <CurrentChartDisplay
          //using _data instead of just the flatlist ref
@@ -38,7 +42,7 @@ export default class PrayerView extends React.Component {
          //the ref for data in render; instead, the data
          //can be waited on from the parent rather than
          //introducing extreme sibling dependency
-        data={_data} scroller={this.chartsFlatList}/> 
+        data={_data} scroller={this.chartsFlatList} /> 
 
         <FlatList
           ref={ref => this.chartsFlatList = ref}
@@ -94,14 +98,14 @@ export default class PrayerView extends React.Component {
 
       </View>
 
-    )
+    ) || null
   }
 
 
 
   async componentWillMount() {
 
-
+    
     this.props.fetchCoords()
 
   }

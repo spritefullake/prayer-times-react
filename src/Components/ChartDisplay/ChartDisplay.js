@@ -78,13 +78,14 @@ export default class ChartDisplay extends React.Component {
     }
 }
 
+const secondary = "rgba(189,252,100,0.5)"
 
 const style = {
     displayStyle: {
         alignSelf: 'stretch',
         flexDirection: 'row',
         justifyContent: 'center',
-        backgroundColor: "rgba(189,252,100,0.5)",
+        backgroundColor: secondary,
         marginLeft: 0,
         marginBottom: 0,
     },

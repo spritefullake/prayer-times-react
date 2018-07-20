@@ -4,14 +4,14 @@ import { StyleSheet, Text, View, Button } from 'react-native';
 import { DateTime, Interval } from 'luxon'
 import SText from '../../common/SText'
 
-
+import { Location, Permissions } from 'expo';
 
 export default class PrayerTimer extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            now: DateTime.local()
+            now: DateTime.local(),
         }
 
 
@@ -21,7 +21,7 @@ export default class PrayerTimer extends React.Component {
                 //date's day is different than
                 //the now date's date
                 if (this.state.now.startOf('day') > this.props.date.startOf('day')) {
-                    this.props.rollNextDay();
+                    this.props.onDayChange()
                 }
                 if (this.state.now > this.props.nextPrayerEnd) {
                     this.props.rollNextPrayer();
@@ -30,16 +30,22 @@ export default class PrayerTimer extends React.Component {
 
         }
 
+        this.findAddress()
+        
+
     }
+
 
     render() {
 
-        const ready = this.props.nextPrayerEnd && this.props.nextPrayerName;
+        const ready = this.props.nextPrayerEnd && this.props.nextPrayerName && this.props.address;
 
 
         return ready && (
             <View style={[timerStyle.cont]}>
-
+                <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
+                    <SText>Prayer Times in {this.props.address}</SText>
+                </View>
 
                 <View style={timerStyle.nowWrapper}>
                     <View style={timerStyle.now}>
@@ -54,7 +60,7 @@ export default class PrayerTimer extends React.Component {
                     </View>
                 </View>
             </View>
-        )
+        ) || null
 
     }
 
@@ -62,6 +68,11 @@ export default class PrayerTimer extends React.Component {
     componentDidMount() {
         this.props.startTicking()
         this.timerId = setInterval(() => this.tick(), 1000)
+/*
+        this.findRelativeAddress().then(res => {
+            this.setState({address: res});   
+        })
+        */
 
         //the arrow function is important in setInterval
         //this.timer = setInterval(() => this.tick(), 1000)
@@ -78,6 +89,23 @@ export default class PrayerTimer extends React.Component {
 
     formatNow() {
         return this.state.now.toLocaleString(DateTime.DATETIME_SHORT)
+    }
+
+    async findAddress(){
+        //if the address was already 
+        //reverse geocoded, there
+        //is no use in using an 
+        //expensive operation again
+        if(this.props.address){
+            //alert("ADDRESS ALREADY PRESENT")
+            return;
+        }
+
+        const coords = this.props.coords;
+        let res = await Location.reverseGeocodeAsync({latitude: coords[0], longitude: coords[1]});
+        this.props.addressFound(res[0].city)
+
+    
     }
 }
 
