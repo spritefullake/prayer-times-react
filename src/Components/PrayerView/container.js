@@ -1,7 +1,7 @@
 import { fetchCoords, handleSwipe } from "./action-creators";
 import { connect } from 'react-redux'
 
-import PrayerView from '../PrayerView/PrayerView'
+import PrayerView from './main'
 
 
 
@@ -25,4 +25,4 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 
 
-export const SwipePrayerView = connect(mapStateToProps, mapDispatchToProps)(PrayerView)
+export default $PrayerView = connect(mapStateToProps, mapDispatchToProps)(PrayerView)

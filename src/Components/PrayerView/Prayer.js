@@ -51,7 +51,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         alignItems: 'center',
-        minHeight: '10%'
+        minHeight: '10%',
+        borderTopWidth: 0.75,
+        borderColor: 'white',
+        
     },
     prayerText: {
 

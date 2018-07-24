@@ -2,9 +2,12 @@ import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
 
 import { DateTime, Interval } from 'luxon'
-import SText from '../../common/SText'
 
-import { Location, Permissions } from 'expo';
+import SText from '../../common/SText'
+import { findAddress } from '../../common/utils'
+
+import $GeoRefresh from '../GeoRefresh/container'
+
 
 export default class PrayerTimer extends React.Component {
     constructor(props) {
@@ -30,9 +33,10 @@ export default class PrayerTimer extends React.Component {
 
         }
 
-        this.findAddress()
+        //find the address and store it
+        findAddress(this.props.address,this.props.coords)
+        .then(res => this.props.addressFound(res[0].city), res => res);
         
-
     }
 
 
@@ -43,8 +47,17 @@ export default class PrayerTimer extends React.Component {
 
         return ready && (
             <View style={[timerStyle.cont]}>
-                <View style={{flex: 1, alignItems: "center", justifyContent: "center"}}>
+                
+
+                <View style={{flex: 2, flexDirection: "row", alignItems: "center", justifyContent: "center"}}> 
+                    <View style={{flex: 1}}/>
+
                     <SText>Prayer Times in {this.props.address}</SText>
+
+                    <View style={{flex: 1, alignSelf: "flex-end"}}>
+                        <SText>HEllo</SText>
+                        <$GeoRefresh/>
+                    </View>
                 </View>
 
                 <View style={timerStyle.nowWrapper}>
@@ -68,14 +81,7 @@ export default class PrayerTimer extends React.Component {
     componentDidMount() {
         this.props.startTicking()
         this.timerId = setInterval(() => this.tick(), 1000)
-/*
-        this.findRelativeAddress().then(res => {
-            this.setState({address: res});   
-        })
-        */
-
-        //the arrow function is important in setInterval
-        //this.timer = setInterval(() => this.tick(), 1000)
+        //findTimeZone()
     }
     componentWillUnmount() {
         clearInterval(this.timerId)
@@ -89,23 +95,6 @@ export default class PrayerTimer extends React.Component {
 
     formatNow() {
         return this.state.now.toLocaleString(DateTime.DATETIME_SHORT)
-    }
-
-    async findAddress(){
-        //if the address was already 
-        //reverse geocoded, there
-        //is no use in using an 
-        //expensive operation again
-        if(this.props.address){
-            //alert("ADDRESS ALREADY PRESENT")
-            return;
-        }
-
-        const coords = this.props.coords;
-        let res = await Location.reverseGeocodeAsync({latitude: coords[0], longitude: coords[1]});
-        this.props.addressFound(res[0].city)
-
-    
     }
 }
 

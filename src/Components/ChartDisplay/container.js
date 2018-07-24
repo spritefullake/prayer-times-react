@@ -2,7 +2,7 @@
 import { connect } from 'react-redux'
 
 
-import ChartDisplay from '../ChartDisplay/ChartDisplay'
+import ChartDisplay from './main'
 import { returnToNow } from './action-creators'
 
 
@@ -22,4 +22,4 @@ const mapStateToProps = ({ coords, date, currentChartDate, index, limit }, ownPr
 };
 
 
-export const CurrentChartDisplay = connect(mapStateToProps, mapDispatchToProps)(ChartDisplay)
+export default $ChartDisplay = connect(mapStateToProps, mapDispatchToProps)(ChartDisplay)

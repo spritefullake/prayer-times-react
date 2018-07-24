@@ -3,9 +3,10 @@ import { StyleSheet, View, Dimensions, FlatList, Text } from 'react-native'
 import { DateTime, Interval } from 'luxon'
 
 
-import PrayerChart from '../../Components/PrayerView/PrayerChart'
-import { TickingPrayerTimer } from '../PrayerTimer/TickingPrayerTimer'
-import { CurrentChartDisplay } from '../ChartDisplay/CurrentChartDisplay'
+import PrayerChart from './PrayerChart'
+
+import $PrayerTimer from '../PrayerTimer/container'
+import $ChartDisplay from '../ChartDisplay/container'
 
 //component holds all the prayer related components
 //will be hooked into redux container
@@ -32,11 +33,11 @@ export default class PrayerView extends React.Component {
 
     return ready && (
       <View style={this.props.style}>
-        <TickingPrayerTimer
+        <$PrayerTimer
           onDayChange={this.rollNextDay}
           date={this.state.date}
         />
-         <CurrentChartDisplay
+         <$ChartDisplay
          //using _data instead of just the flatlist ref
          //prevents the component from relying purely on
          //the ref for data in render; instead, the data

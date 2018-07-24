@@ -1,63 +1,17 @@
 import './ReactotronConfig'
-import Reactotron from 'reactotron-react-native'
+
 
 
 import React from 'react';
-
 import { StyleSheet, View, Dimensions, AsyncStorage } from 'react-native'
 
-import { ConnectedCoordPrompt } from "./src/Components/CoordPrompt/ConnectedCoordPrompt";
-
-import { connect, Provider } from 'react-redux'
-import { createStore, applyMiddleware, compose } from 'redux'
-import { createLogger } from 'redux-logger'
-import thunkMiddleware from 'redux-thunk'
-import { SwipePrayerView } from './src/Components/PrayerView/SwipePrayerView'
-
-
-import {rootReducer, } from './src/reducers'
-
-
-import hardSet from 'redux-persist/lib/stateReconciler/hardSet'
-import { persistStore, persistReducer, createTransform, persistCombineReducers } from 'redux-persist'
-// defaults to localStorage for web and AsyncStorage for react-native
-
-import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
+import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 
-import createSecureStore from "redux-persist-expo-securestore";
-import {SecureStore} from 'expo'
+import { appStore, persistor } from './src/persist'
 
-const initialState =  ({
-  coords: null,
-  //the index of the
-  //chart currently displayed
-  index: 5,
-    //the number of charts 
-  //to be rendered initially 
-  limit: 10,
-
-  address: null,
-});
-
-const persistConfig = {
-  key: 'root',
-  //using securestorage becuase
-  //there is a bug with AsyncStorage
-  storage: createSecureStore(),
-  stateReconciler: autoMergeLevel2,
-  debug: true,
-};
-
-const pPreducer = persistReducer(persistConfig, rootReducer)
-
-
-const logger = createLogger();
-const appStore = Reactotron.createStore(pPreducer, initialState,
-  applyMiddleware(thunkMiddleware, logger)
-)
-const persistor = persistStore(appStore)
-
+import $PrayerView from './src/Components/PrayerView/container'
+import $CoordPrompt from "./src/Components/CoordPrompt/container";
 
 export default class App extends React.Component {
   constructor(props) {
@@ -83,10 +37,10 @@ export default class App extends React.Component {
           <View style={{ flex: 1 }}>
 
             <View style={styles.header}>
-              <ConnectedCoordPrompt />
+              <$CoordPrompt />
             </View>
 
-            <SwipePrayerView style={{ flex: 1 }} />
+            <$PrayerView style={{ flex: 1 }} />
 
 
           </View>

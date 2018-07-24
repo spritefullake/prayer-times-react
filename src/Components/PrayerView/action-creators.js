@@ -43,13 +43,22 @@ export function fetchCoords() {
         if (getState().coords) {
             dispatch({
                 type: COORDS_PRESENT,
-
             });
         }
 
         try {
             //ask for location permissions before geolocating
             const { status } = await Permissions.askAsync(Permissions.LOCATION);
+            if (status != 'granted') {
+                throw new Error("Location Permission Denied")
+            }
+
+            //exit early if the location services are not enabled
+            const locationEnabled = await Location.getProviderStatusAsync();
+            if (!locationEnabled) {
+                throw new Error("Location services disabled")
+            }
+
             try {
                 dispatch({ type: FETCHING_COORDS });
                 const location = await Location.getCurrentPositionAsync({
@@ -60,6 +69,7 @@ export function fetchCoords() {
                 const coords = [location.coords.latitude, location.coords.longitude];
                 dispatch(handleCoords(coords));
             }
+
             catch (err) {
                 dispatch({ type: FETCHING_COORDS_FAILED });
                 /*
@@ -72,7 +82,7 @@ export function fetchCoords() {
             }
         }
         catch (err) {
-            console.log("Location permissions denied")
+            console.log(err)
         }
     };
 }

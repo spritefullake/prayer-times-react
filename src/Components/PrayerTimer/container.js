@@ -2,7 +2,7 @@ import { startTimer, rollNextPrayer, addressFound, autoGrabNext } from './action
 import { connect } from 'react-redux'
 
 import { DateTime } from 'luxon'
-import PrayerTimer from '../PrayerTimer/PrayerTimer'
+import PrayerTimer from './main'
 
 
 
@@ -28,4 +28,4 @@ const mapStateToProps = ({ coords, address }, ownProps) => {
 };
 
 
-export const TickingPrayerTimer = connect(mapStateToProps, mapDispatchToProps)(PrayerTimer)
+export default $PrayerTimer = connect(mapStateToProps, mapDispatchToProps)(PrayerTimer)

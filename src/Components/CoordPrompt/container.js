@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 
-import CoordPrompt from './CoordPrompt'
+import CoordPrompt from './main'
 import {reflowCoordinates} from './action-creators'
 
 
@@ -22,4 +22,4 @@ const mapDispatchToProps = (dispatch,ownProps) => {
 };
 
 
-export const ConnectedCoordPrompt = connect(mapStateToProps, mapDispatchToProps)(CoordPrompt)
+export default $CoordPrompt = connect(mapStateToProps, mapDispatchToProps)(CoordPrompt)
