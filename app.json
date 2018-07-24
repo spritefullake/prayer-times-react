@@ -4,7 +4,9 @@
     "name":"Prayer Times React",
     "slug":"prayers",
     "icon":"icon.png",
-    "description": "A Mobile, React-Native, Muslim Prayer Times Notification & Viewing Application"
-
+    "description": "A Mobile, React-Native, Muslim Prayer Times Notification & Viewing Application",
+    "packagerOpts": {
+      "assetExts": ["db","sql","sqlite"]
+    }
   }
 }
