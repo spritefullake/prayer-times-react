@@ -8,5 +8,20 @@
         "transform-react-jsx-source"
       ]
     }
-  }
+  },
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "root": [
+          "./src"
+        ],
+        "alias": {
+          "@common": "./src/common",
+          "@actionTypes":"./src/action-types",
+          "@actionCreators":"./src/action-creators"
+        }
+      }
+    ]
+  ]
 }

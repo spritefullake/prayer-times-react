@@ -20,6 +20,10 @@ const initialState = ({
     limit: 10,
 
     address: null,
+
+    //if the prompt to change the
+    //coordinates manually is visible
+    coordPromptVisible: false,
 });
 
 const persistConfig = {

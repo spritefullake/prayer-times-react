@@ -6,8 +6,8 @@ import {
     FETCH_COORDS, FETCHING_COORDS, FETCHED_COORDS,
     SWIPED_CHART, SWIPE_TO_NOW,
     ADDRESS_FOUND
-} from "../../action-types";
-import { nextPrayer } from '../../common/utils'
+} from "@actionTypes";
+import { nextPrayer } from '@common/utils'
 
 export function startTimer() {
     return {
@@ -35,12 +35,5 @@ export function autoGrabNext({ coords, date }) {
     }
     else {
         return { nextPrayerName: null, nextPrayerEnd: null };
-    }
-}
-
-export function addressFound(address) {
-    return {
-        type: ADDRESS_FOUND,
-        address,
     }
 }

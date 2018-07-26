@@ -1,12 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import { DateTime, Interval } from 'luxon'
 
-import SText from '../../common/SText'
-import { findAddress } from '../../common/utils'
+import SText from '@common/SText'
+import { findAddress } from '@common/utils'
 
 import $GeoRefresh from '../GeoRefresh/container'
+
+import { Button, Icon } from 'react-native-elements'
 
 
 export default class PrayerTimer extends React.Component {
@@ -29,14 +31,11 @@ export default class PrayerTimer extends React.Component {
                 if (this.state.now > this.props.nextPrayerEnd) {
                     this.props.rollNextPrayer();
                 }
+                
             })
 
         }
 
-        //find the address and store it
-        findAddress(this.props.address,this.props.coords)
-        .then(res => this.props.addressFound(res[0].city), res => res);
-        
     }
 
 
@@ -47,17 +46,17 @@ export default class PrayerTimer extends React.Component {
 
         return ready && (
             <View style={[timerStyle.cont]}>
-                
 
-                <View style={{flex: 2, flexDirection: "row", alignItems: "center", justifyContent: "center"}}> 
-                    <View style={{flex: 1}}/>
 
-                    <SText>Prayer Times in {this.props.address}</SText>
+                <View style={{ flex: 2, flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
+                    <View style={{ flex: 1 }} />
 
-                    <View style={{flex: 1, alignSelf: "flex-end"}}>
-                        <SText>HEllo</SText>
+                    <SText style={{ flex: 3, textAlign: "center"}}>Prayer Times in {this.props.address}</SText>
+
+                    <View style={{flex: 1, alignItems: "flex-start"}}> 
                         <$GeoRefresh/>
                     </View>
+   
                 </View>
 
                 <View style={timerStyle.nowWrapper}>
@@ -72,6 +71,7 @@ export default class PrayerTimer extends React.Component {
 
                     </View>
                 </View>
+                
             </View>
         ) || null
 
@@ -101,6 +101,7 @@ export default class PrayerTimer extends React.Component {
 const timerStyle = {
     cont: {
         flexDirection: 'column',
+        flex: 0.20,
         //alignItems: 'baseline',
     },
     nowWrapper: {

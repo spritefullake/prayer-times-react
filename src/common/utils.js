@@ -62,7 +62,7 @@ export async function findAddress(address, coords) {
     //is no use in using an 
     //expensive operation again
     if (address) {
-        return Promise.reject("address already exists")
+        return address;
     }
 
     let res = await Location.reverseGeocodeAsync({ latitude: coords[0], longitude: coords[1] });

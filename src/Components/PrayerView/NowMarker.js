@@ -2,7 +2,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { DateTime, Interval } from 'luxon'
-import {getSizing} from '../../common/utils'
+import {getSizing} from '@common/utils'
 
 export default class NowMarker extends React.Component{
     render(){

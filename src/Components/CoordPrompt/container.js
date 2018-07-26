@@ -1,11 +1,11 @@
 import { connect } from 'react-redux'
 
 import CoordPrompt from './main'
-import {reflowCoordinates} from './action-creators'
+import { reflowCoordinates, hidePrompt } from './action-creators'
+import { fetchAddress } from '@actionCreators'
 
 
-
-const mapStateToProps = ({coords}, ownProps) => {
+const mapStateToProps = ({coords, coordPromptVisible}, ownProps) => {
     return {
         ...ownProps,
         //since the coordprompt uses the indices
@@ -13,11 +13,14 @@ const mapStateToProps = ({coords}, ownProps) => {
         //coords currently (aka coords = null)
         //then we use [null,null] instead
         coords: coords || [null,null],
+        modalVisible: coordPromptVisible
     }   
 };
 const mapDispatchToProps = (dispatch,ownProps) => {
     return {
-        reflowCoordinates: (coords) => dispatch(reflowCoordinates(coords))
+        reflowCoordinates: (coords) => dispatch(reflowCoordinates(coords)),
+        fetchAddress: () => dispatch(fetchAddress()),
+        hidePrompt: () => dispatch(hidePrompt())
     }
 };
 

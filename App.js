@@ -30,15 +30,18 @@ export default class App extends React.Component {
     //is important so the entire app spreads
     //the length of the screen
 
+    //Provider & PersistGate 'magically' provide 
+    //the props from redux and redux-persist, respectively
+
     return (
       <Provider store={appStore}>
         <PersistGate loading={null} persistor={persistor}>
 
-          <View style={{ flex: 1 }}>
+          <View style={{ flex: 1, marginTop: 60 }}>
 
-            <View style={styles.header}>
-              <$CoordPrompt />
-            </View>
+
+            <$CoordPrompt />
+
 
             <$PrayerView style={{ flex: 1 }} />
 

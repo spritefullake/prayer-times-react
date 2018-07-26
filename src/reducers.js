@@ -4,7 +4,8 @@ import {
     FETCH_COORDS, FETCHED_COORDS,
     SWIPED_CHART, 
     MANUAL_ENTRY,
-    LOCATION_OFF, ADDRESS_FOUND
+    LOCATION_OFF, ADDRESS_FOUND,
+    SHOW_COORD_PROMPT, HIDE_COORD_PROMPT
 } from "./action-types";
 
 
@@ -60,6 +61,17 @@ export const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 address,
+            }
+        
+        case SHOW_COORD_PROMPT:
+            return {
+                ...state,
+                coordPromptVisible: true,
+            }
+        case HIDE_COORD_PROMPT:
+            return {
+                ...state,
+                coordPromptVisible: false,
             }
 
         default:

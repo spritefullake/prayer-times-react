@@ -1,4 +1,6 @@
-import { fetchCoords, handleSwipe } from "./action-creators";
+import { handleSwipe } from "./action-creators";
+import { fetchCoords, fetchAddress } from "@actionCreators"
+
 import { connect } from 'react-redux'
 
 import PrayerView from './main'
@@ -19,6 +21,7 @@ const mapStateToProps = ({ coords, limit, index }, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         fetchCoords: () => dispatch(fetchCoords()),
+        fetchAddress: () => dispatch(fetchAddress({persist: false})),
         handleSwipe: i => dispatch(handleSwipe(i)),
     }
 };

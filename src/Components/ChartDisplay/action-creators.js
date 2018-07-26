@@ -4,7 +4,7 @@ import {
     DAY_CHANGED, TIMER_NEXT_PRAYER,
     FETCH_COORDS, FETCHING_COORDS, FETCHED_COORDS,
     SWIPED_CHART, SWIPE_TO_NOW
-} from "../../action-types";
+} from "@actionTypes";
 
 
 export function returnToNow(scroller) {

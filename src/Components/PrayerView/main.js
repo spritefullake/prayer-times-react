@@ -17,6 +17,9 @@ export default class PrayerView extends React.Component {
     this.state = { width: null, date: DateTime.local()}
 
     this.chartsFlatList = React.createRef();
+
+    this.props.fetchCoords();
+    this.props.fetchAddress();
   }
 
   rollNextDay(){
@@ -102,14 +105,6 @@ export default class PrayerView extends React.Component {
     ) || null
   }
 
-
-
-  async componentWillMount() {
-
-    
-    this.props.fetchCoords()
-
-  }
 
 }
 

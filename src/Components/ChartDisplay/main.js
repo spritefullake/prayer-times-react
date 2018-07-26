@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { DateTime, Interval } from 'luxon'
 import { Button, Icon } from 'react-native-elements'
 
-import SText from '../../common/SText'
+import SText from '@common/SText'
 
 export default class ChartDisplay extends React.Component {
     render() {

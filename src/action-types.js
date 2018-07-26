@@ -18,8 +18,16 @@ export const SWIPE_TO_NOW = "CHART::SWIPE BACK TO NOW";
 
 export const REFRESH_LOCATION = "Refreshing the location";
 
+export const SHOW_COORD_PROMPT = "Displaying the coodinates prompt";
+export const HIDE_COORD_PROMPT = "Hiding the coordinates prompt";
+
+export const FIND_ADDRESS = "Begin finding the address";
+export const FINDING_ADDRESS = "Finding the address";
+export const FINDING_ADDRESS_FAILED = "Failed to find the address";
+export const ADDRESS_FOUND = "Reverse geocoding returned the address!";
+export const ADDRESS_PRESENT = "Address persisted"
 //error types
 export const LOCATION_OFF = "Location is turned off or unable to get location";
-export const MANUAL_ENTRY = "Coordinates entered manually"
+export const MANUAL_ENTRY = "Coordinates entered manually";
 
-export const ADDRESS_FOUND = "Reverse geocoding returned the address!"
+

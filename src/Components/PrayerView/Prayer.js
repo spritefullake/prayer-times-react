@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import SText from '../../common/SText'
+import SText from '@common/SText'
 export default class Prayer extends React.Component {
 
     constructor(props) {

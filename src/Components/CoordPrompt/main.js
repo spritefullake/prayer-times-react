@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Modal, ScrollView, KeyboardAvoidingView, TouchableOpacity, Text, TouchableHighlight, View, TextInput } from 'react-native';
-import SText from '../../common/SText';
-
+import SText from '@common/SText';
+import CloseTrigger from './CloseTrigger'
+import { findAddress } from '@common/utils';
 
 
 export default class CoordPrompt extends React.Component {
   state = {
-    modalVisible: false,
+    modalVisible: this.props.modalVisible,
     
     //we use state to hold coords
     //temporarily while the user 
@@ -14,35 +15,45 @@ export default class CoordPrompt extends React.Component {
     //then, redux will handle
     //the coords once the final
     //submit comes in
-    coords: [...this.props.coords],
+    coords: this.props.coords,
   };
 
   latRef = React.createRef();
   longRef = React.createRef();
 
   setModalVisible(visible) {
-    this.setState({ modalVisible: visible });
+    visible ? null : this.props.hidePrompt()
   }
+
 
   changeCoords({latitude=this.state.coords[0],longitude=this.state.coords[1]}){
     this.setState({coords: [latitude,longitude] })
   }
 
+  constructor(props){
+    super(props);
+
+    this.closeModal = () => {
+      this.setModalVisible(false); 
+      //resets the coordinates to reflect the redux store
+      //if the user closes the prompt instead of submitting changes
+      this.changeCoords({latitude: this.props.coords[0], longitude: this.props.coords[1]});
+    }
+  }
+
+
   render() {
     return (
-      <View style={{ marginTop: 22 }}>
         <Modal
           animationType="slide"
           transparent={false}
-          visible={this.state.modalVisible}
+          visible={this.props.modalVisible}
           onRequestClose={() => {
             alert('Modal has been closed.');
-            this.setState({ modalVisible: false })
+            this.props.hidePrompt();
           }}>
+
           <KeyboardAvoidingView
-
-
-
             style={{ flex: 1, padding: 10, backgroundColor: secondary }}>
             <View style={{ flex: 1, alignItems: "center", }}>
 
@@ -107,9 +118,12 @@ export default class CoordPrompt extends React.Component {
                   selectTextOnFocus={true}
 
                   onSubmitEditing={evt => {
+                    this.closeModal();
                     this.props.reflowCoordinates(
                       this.state.coords.map(parseFloat)
-                    )
+                    );
+                    this.props.fetchAddress();
+                    
                   }}
 
                   onChange={evt => {
@@ -121,30 +135,16 @@ export default class CoordPrompt extends React.Component {
                 />
               </View>
 
-              <TouchableOpacity
-                style={{ flex: 0.5, justifyContent: "center", flexDirection: "row", padding: 60, paddingHorizontal: 70}}
-                onPress={() => {
-                  this.setModalVisible(!this.state.modalVisible);
-                }}>
+              <CloseTrigger 
+        style={styles.close}
+        closer={this.closeModal}/>
 
-                <View style={ styles.close }>
-                  <SText style={{ fontSize: 30, color: tertiary }} >Close</SText>
-                </View>
-              </TouchableOpacity>
             </View>
           </KeyboardAvoidingView>
         </Modal>
-
-        <TouchableHighlight
-
-          onPress={() => {
-            this.setModalVisible(true);
-          }}>
-          <SText>Show Modal</SText>
-        </TouchableHighlight>
-      </View>
     );
   }
+
 }
 
 const neutral = "rgb(239, 246, 239)"

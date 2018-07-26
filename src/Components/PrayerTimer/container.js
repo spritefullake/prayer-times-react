@@ -1,10 +1,10 @@
-import { startTimer, rollNextPrayer, addressFound, autoGrabNext } from './action-creators'
+import { startTimer, rollNextPrayer, autoGrabNext } from './action-creators'
 import { connect } from 'react-redux'
 
 import { DateTime } from 'luxon'
 import PrayerTimer from './main'
 
-
+import { fetchAddress } from '@actionCreators'
 
 //two linking constants between redux & react
 
@@ -14,7 +14,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         startTicking: () => dispatch(startTimer()),
         rollNextPrayer: () => dispatch(rollNextPrayer(ownProps.coords)),
-        addressFound: (a) => dispatch(addressFound(a)),
     }
 }
 
