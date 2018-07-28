@@ -10,6 +10,7 @@ import $GeoRefresh from '../GeoRefresh/container'
 
 import { Button, Icon } from 'react-native-elements'
 
+import SearchLauncher from '../SearchLauncher/main'
 
 export default class PrayerTimer extends React.Component {
     constructor(props) {
@@ -49,7 +50,9 @@ export default class PrayerTimer extends React.Component {
 
 
                 <View style={{ flex: 2, flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
-                    <View style={{ flex: 1 }} />
+                    <View style={{ flex: 1, alignItems: "flex-end"}} > 
+                        <SearchLauncher/>
+                    </View>
 
                     <SText style={{ flex: 3, textAlign: "center"}}>Prayer Times in {this.props.address}</SText>
 
