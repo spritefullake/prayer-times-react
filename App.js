@@ -13,13 +13,8 @@ import { appStore, persistor } from './src/persist'
 import $PrayerView from './src/Components/PrayerView/container'
 import $CoordPrompt from "./src/Components/CoordPrompt/container";
 
+
 export default class App extends React.Component {
-  constructor(props) {
-    super(props)
-
-  }
-
-
   render() {
 
     //
