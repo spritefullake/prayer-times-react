@@ -24,6 +24,10 @@ const initialState = ({
     //if the prompt to change the
     //coordinates manually is visible
     coordPromptVisible: false,
+
+    //initially we show the PrayerChart
+    //in a perspective list form
+    listType: "perspective"
 });
 
 const persistConfig = {

@@ -5,7 +5,8 @@ import {
     SWIPED_CHART, 
     MANUAL_ENTRY,
     LOCATION_OFF, ADDRESS_FOUND,
-    SHOW_COORD_PROMPT, HIDE_COORD_PROMPT
+    SHOW_COORD_PROMPT, HIDE_COORD_PROMPT,
+    SWITCH_LIST,
 } from "./action-types";
 
 
@@ -24,6 +25,7 @@ export const rootReducer = (state = initialState, action) => {
         index, limit,
         address,
 
+        listType,
 
 
     } = action;
@@ -72,6 +74,12 @@ export const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 coordPromptVisible: false,
+            }
+
+        case SWITCH_LIST: 
+            return {
+                ...state,
+                listType,
             }
 
         default:

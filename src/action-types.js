@@ -26,6 +26,8 @@ export const FINDING_ADDRESS = "Finding the address";
 export const FINDING_ADDRESS_FAILED = "Failed to find the address";
 export const ADDRESS_FOUND = "Reverse geocoding returned the address!";
 export const ADDRESS_PRESENT = "Address persisted"
+
+export const SWITCH_LIST = "Switching list to ";
 //error types
 export const LOCATION_OFF = "Location is turned off or unable to get location";
 export const MANUAL_ENTRY = "Coordinates entered manually";

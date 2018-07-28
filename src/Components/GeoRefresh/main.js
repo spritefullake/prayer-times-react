@@ -22,7 +22,7 @@ export default class GeoRefresh extends React.Component {
                     }
                 }}
             >
-                <View style={{ flex: 2, alignItems: "flex-start",
+                <View style={{ flex: 1, alignItems: "flex-start",
                 alignSelf: "stretch", justifyContent: "flex-end", minHeight: 25 }}>
                     <Icon
                   

@@ -1,18 +1,26 @@
 import React from 'react'
 import { View, TouchableOpacity } from 'react-native'
 import SText from "@common/SText"
+import { Button } from 'react-native-elements'
 
 export default class CloseTrigger extends React.Component{
     render(){
         return (
-            <TouchableOpacity
-            style={{ flex: 0.5, justifyContent: "center", flexDirection: "row", padding: 60, paddingHorizontal: 70}}
-            onPress={this.props.closer}>
+            <Button
+            containerStyle={{alignSelf: "stretch"}}
+            onPress={this.props.closer}
+            title="Close" 
+            buttonStyle={{
+                backgroundColor: tertiary,
+                borderRadius: 0,
+            }}
+            color="white"
 
-            <View style={ this.props.style }>
-              <SText style={{ fontSize: 30, color: tertiary }} >Close</SText>
-            </View>
-          </TouchableOpacity>
+            titleStyle={{
+                fontSize: 25
+            }}
+  
+            />
         )
     }
 }

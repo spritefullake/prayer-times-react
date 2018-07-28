@@ -3,11 +3,10 @@ import { StyleSheet, View, Dimensions, FlatList, Text } from 'react-native'
 import { DateTime, Interval } from 'luxon'
 
 
-import PrayerChart from './PrayerChart'
-
 import $PrayerTimer from '../PrayerTimer/container'
 import $ChartDisplay from '../ChartDisplay/container'
-
+import $ListSwitch from '../ListSwitch/container'
+import $PrayerChartList from '../PrayerChartList/container'
 //component holds all the prayer related components
 //will be hooked into redux container
 export default class PrayerView extends React.Component {
@@ -32,14 +31,15 @@ export default class PrayerView extends React.Component {
 
     //the array that forms the flatlist
     const _data = prayerChartList(this.state.date, this.props.limit)
-    
 
+  
     return ready && (
       <View style={this.props.style}>
         <$PrayerTimer
           onDayChange={this.rollNextDay}
           date={this.state.date}
         />
+        <$ListSwitch/>
          <$ChartDisplay
          //using _data instead of just the flatlist ref
          //prevents the component from relying purely on
@@ -48,58 +48,9 @@ export default class PrayerView extends React.Component {
          //introducing extreme sibling dependency
         data={_data} scroller={this.chartsFlatList} /> 
 
-        <FlatList
-          ref={ref => this.chartsFlatList = ref}
-
-          style={{ flex: 1 }}
-
-          horizontal
-
-          pagingEnabled={true}
-
-          data={_data}
-
-          onLayout={(evt) => {
-            //getting the width of the flatlist view
-            //allows us to set the width of the PrayerChart
-            //to be fully the width of the flatlist view
-            this.setState({ width: Math.round(evt.nativeEvent.layout.width) })
-          }}
-
-          onMomentumScrollEnd={evt => {
-
-            let w = evt.nativeEvent.layoutMeasurement.width;
-            //the index is found by dividing the offset from the left
-            //by the width of each chart (predetermined)
-            let index = Math.round(evt.nativeEvent.contentOffset.x / w);
-
-            this.props.handleSwipe(index)
-          }}
-
-
-          keyExtractor={item => item.toLocaleString()}
-
-          getItemLayout={(data, index) => ({
-            length: this.state.width,
-            offset: this.state.width * index,
-            index
-          })}
-
-          //scroll to today
-          initialScrollIndex={this.props.index}
-
-          renderItem={({ item }) => {
-            return (
-              <PrayerChart
-                style={{ width: this.state.width }}
-                coords={this.props.coords}
-                date={item}
-              />
-            )
-
-          }}
+        <$PrayerChartList 
+        listRef={ref => this.chartsFlatList = ref} data={_data}
         />
-
       </View>
 
     ) || null

@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import { Modal, ScrollView, KeyboardAvoidingView, TouchableOpacity, Text, TouchableHighlight, View, TextInput } from 'react-native';
-import SText from '@common/SText';
+import SText from '@common/SText'
 import CloseTrigger from './CloseTrigger'
-import { findAddress } from '@common/utils';
-
+import { findAddress } from '@common/utils'
+import { MapView } from 'expo'
+import { Marker } from 'react-native-maps'
 
 export default class CoordPrompt extends React.Component {
   state = {
-    modalVisible: this.props.modalVisible,
     
     //we use state to hold coords
     //temporarily while the user 
@@ -21,10 +21,7 @@ export default class CoordPrompt extends React.Component {
   latRef = React.createRef();
   longRef = React.createRef();
 
-  setModalVisible(visible) {
-    visible ? null : this.props.hidePrompt()
-  }
-
+  
 
   changeCoords({latitude=this.state.coords[0],longitude=this.state.coords[1]}){
     this.setState({coords: [latitude,longitude] })
@@ -34,7 +31,7 @@ export default class CoordPrompt extends React.Component {
     super(props);
 
     this.closeModal = () => {
-      this.setModalVisible(false); 
+      this.props.hidePrompt(); 
       //resets the coordinates to reflect the redux store
       //if the user closes the prompt instead of submitting changes
       this.changeCoords({latitude: this.props.coords[0], longitude: this.props.coords[1]});
@@ -43,35 +40,55 @@ export default class CoordPrompt extends React.Component {
 
 
   render() {
+
+    const mapRegion = {
+      latitude: parseFloat(this.state.coords[0]),
+      longitude: parseFloat(this.state.coords[1]),
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421,
+    };
+
     return (
         <Modal
           animationType="slide"
           transparent={false}
           visible={this.props.modalVisible}
           onRequestClose={() => {
-            alert('Modal has been closed.');
             this.props.hidePrompt();
           }}>
 
           <KeyboardAvoidingView
-            style={{ flex: 1, padding: 10, backgroundColor: secondary }}>
+            style={{ flex: 1, backgroundColor: secondary }}>
+
             <View style={{ flex: 1, alignItems: "center", }}>
 
               <View style={{
-                flex: 1, justifyContent: "center",
+                flex: 2, justifyContent: "center",
                 flexDirection: "row",
               }}>
-                <SText style={{
-                  flex: 1, fontSize: 30,
-                  alignSelf: "center", textAlign: "center",
-                  color: tertiary,
-                }}
+                 <MapView
+                        style={{ flex: 2 }}
+                        initialRegion={mapRegion}
+                        
+                        region={mapRegion}
+                        
+                        >
 
-                >Enter Your Coordinates</SText>
+                      <Marker coordinate={{
+                        latitude: parseFloat(this.state.coords[0]),
+                        longitude: parseFloat(this.state.coords[1]),
+                      }} />
+                      
+                </MapView>
               </View>
+              
+              <View style={{
+                backgroundColor: "white", alignSelf: "stretch", alignItems: "center"}} >
+                <SText style={{ fontSize: 25, color: tertiary }}>Enter Your Coordinates</SText>
+             </View>
 
 
-              <View style={{ flexDirection: "row", flex: 0.75, }}>
+              <View style={{ flexDirection: "row", flex: 0.75, marginLeft: 10, marginRight: 10 }}>
                 <TextInput
                   value={`${this.state.coords[0]}`}
 
@@ -136,7 +153,6 @@ export default class CoordPrompt extends React.Component {
               </View>
 
               <CloseTrigger 
-        style={styles.close}
         closer={this.closeModal}/>
 
             </View>
@@ -147,22 +163,22 @@ export default class CoordPrompt extends React.Component {
 
 }
 
-const neutral = "rgb(239, 246, 239)"
+const neutral = "rgb(92, 138, 92)"
 const secondary = "rgba(189,252,100,0.5)"
 const tertiary = "rgba(51, 76, 51,0.65)"
 const styles = {
   coord: {
     flex: 1,
     justifyContent: "center",
-    fontSize: 30,
+    fontSize: 25,
     textAlign: "center",
     backgroundColor: "transparent",
+    color: tertiary,
   },
   close: {
-    padding: 6,
     backgroundColor: neutral,
     alignSelf: "stretch",
-    flex: 1,
+    flex: 0.75,
     justifyContent: "center",
     flexDirection: "row",
     alignItems: "center",
