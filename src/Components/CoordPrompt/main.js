@@ -6,6 +6,8 @@ import { findAddress } from '@common/utils'
 import { MapView } from 'expo'
 import { Marker } from 'react-native-maps'
 
+import {secondary, neutral, tertiary} from '@styles'
+
 export default class CoordPrompt extends React.Component {
   state = {
     
@@ -163,9 +165,7 @@ export default class CoordPrompt extends React.Component {
 
 }
 
-const neutral = "rgb(92, 138, 92)"
-const secondary = "rgba(189,252,100,0.5)"
-const tertiary = "rgba(51, 76, 51,0.65)"
+
 const styles = {
   coord: {
     flex: 1,

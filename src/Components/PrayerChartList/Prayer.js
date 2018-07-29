@@ -2,6 +2,9 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import SText from '@common/SText'
+
+import {primary} from '@styles'
+
 export default class Prayer extends React.Component {
 
     constructor(props) {
@@ -43,12 +46,12 @@ export default class Prayer extends React.Component {
     }
 }
 
-const bgc = "rgb(189,252,100)"
+
 const styles = StyleSheet.create({
     prayer: {
 
         flexDirection: 'row',
-        backgroundColor: bgc,
+        backgroundColor: primary,
         alignItems: 'center',
         justifyContent: 'space-around',
         alignItems: 'center',

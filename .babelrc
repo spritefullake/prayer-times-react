@@ -18,8 +18,10 @@
         ],
         "alias": {
           "@common": "./src/common",
+          "@styles": "./src/common/styles",
           "@actionTypes":"./src/action-types",
           "@actionCreators":"./src/action-creators"
+          
         }
       }
     ]
