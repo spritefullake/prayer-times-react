@@ -216,3 +216,19 @@ function doStatement(tx, statement, arr = [],
 
     tx.executeSql(statement, arr, onSuccess, onError);
 }
+
+
+export async function queryQuran(query){
+    const response = await fetch(`http://staging.quran.com:3000/api/v3/search?query=${query}`,{
+        method: 'GET',
+    });
+
+    const json = await response.json();
+
+    return json.results;
+}
+
+export function makeQuranURI(query){
+    return `https://quran.com/search?q=${query}`;
+}
+export const quranApiURL = "https://quran.com";

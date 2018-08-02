@@ -25,9 +25,13 @@ const initialState = ({
     //coordinates manually is visible
     coordPromptVisible: false,
 
+    //control if the Quran View / WebView Shows
+    quranViewVisible: false,
+
     //initially we show the PrayerChart
     //in a perspective list form
-    listType: "perspective"
+    listType: "perspective",
+
 });
 
 const persistConfig = {

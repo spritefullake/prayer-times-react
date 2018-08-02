@@ -32,7 +32,6 @@ export default class PrayerView extends React.Component {
     //the array that forms the flatlist
     const _data = prayerChartList(this.state.date, this.props.limit)
 
-  
     return ready && (
       <View style={this.props.style}>
         <$PrayerTimer

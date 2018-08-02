@@ -28,6 +28,10 @@ export const ADDRESS_FOUND = "Reverse geocoding returned the address!";
 export const ADDRESS_PRESENT = "Address persisted"
 
 export const SWITCH_LIST = "Switching list to ";
+
+export const SHOW_QURAN_VIEW = "Showing the quran WebView";
+export const HIDE_QURAN_VIEW = "Hiding the quran WebView";
+
 //error types
 export const LOCATION_OFF = "Location is turned off or unable to get location";
 export const MANUAL_ENTRY = "Coordinates entered manually";

@@ -7,6 +7,7 @@ import {
     LOCATION_OFF, ADDRESS_FOUND,
     SHOW_COORD_PROMPT, HIDE_COORD_PROMPT,
     SWITCH_LIST,
+    SHOW_QURAN_VIEW, HIDE_QURAN_VIEW,
 } from "./action-types";
 
 
@@ -80,6 +81,17 @@ export const rootReducer = (state = initialState, action) => {
             return {
                 ...state,
                 listType,
+            }
+
+        case SHOW_QURAN_VIEW: 
+            return {
+                ...state,
+                quranViewVisible: true,
+            }
+        case HIDE_QURAN_VIEW:
+            return {
+                ...state,
+                quranViewVisible: false,
             }
 
         default:
