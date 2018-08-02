@@ -11,7 +11,9 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { appStore, persistor } from './src/persist'
 
 import $PrayerView from './src/Components/PrayerView/container'
-import $CoordPrompt from "./src/Components/CoordPrompt/container";
+import $CoordPrompt from "./src/Components/CoordPrompt/container"
+import { SearchBar } from 'react-native-elements'
+import $SurahSearch from './src/Components/SurahSearch/container'
 
 
 export default class App extends React.Component {
@@ -40,7 +42,9 @@ export default class App extends React.Component {
 
             <$PrayerView style={{ flex: 1 }} />
 
+            <$SurahSearch/>
 
+      
           </View>
 
         </PersistGate>
