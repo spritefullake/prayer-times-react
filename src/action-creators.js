@@ -5,7 +5,7 @@ import { FETCHING_COORDS, FETCHING_COORDS_FAILED, COORDS_PRESENT, FETCHED_COORDS
 import { Location, Permissions } from 'expo';
 import { AsyncStorage } from 'react-native';
 
-import { findAddress } from '@common/utils'
+import { findAddress, ableToLocate } from '@common/utils'
 
 
 function handleCoords(coords) {
@@ -38,16 +38,7 @@ export function fetchCoords() {
 
         
         try {
-            //ask for location permissions before geolocating
-            const { status } = await Permissions.askAsync(Permissions.LOCATION);
-            if (status != 'granted') {
-                throw new Error("Location Permission Denied");
-            }
-            //exit early if the location services are not enabled
-            const locationEnabled = await Location.getProviderStatusAsync();
-            if (!locationEnabled) {
-                throw new Error("Location services disabled");
-            }
+            ableToLocate();
             try {
                 dispatch({ type: FETCHING_COORDS });
                 const location = await Location.getCurrentPositionAsync({

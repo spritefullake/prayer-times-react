@@ -4,6 +4,7 @@ import './ReactotronConfig'
 
 import React from 'react';
 import { StyleSheet, View, Dimensions, AsyncStorage } from 'react-native'
+import SText from '@common/SText'
 
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
@@ -14,7 +15,7 @@ import $PrayerView from './src/Components/PrayerView/container'
 import $CoordPrompt from "./src/Components/CoordPrompt/container"
 import { SearchBar } from 'react-native-elements'
 import $SurahSearch from './src/Components/SurahSearch/container'
-
+import $QiblaCompass from './src/Components/QiblaCompass/container'
 
 export default class App extends React.Component {
   render() {
@@ -44,7 +45,8 @@ export default class App extends React.Component {
 
             <$SurahSearch/>
 
-      
+            <$QiblaCompass/>
+
           </View>
 
         </PersistGate>

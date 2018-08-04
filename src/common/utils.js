@@ -2,8 +2,23 @@
 import getData from './data'
 import { DateTime, Interval } from 'luxon'
 
-import { Location, SQLite, FileSystem, Asset } from 'expo'
+import { Location, SQLite, FileSystem, Permissions, Asset } from 'expo'
 
+//function to act as gatekeeper before
+//running any location tasks to see
+//if we can even use the location
+export async function ableToLocate(){
+    //ask for location permissions before geolocating
+    const { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status != 'granted') {
+        return new Error("Location Permission Denied");
+    }
+    //exit early if the location services are not enabled
+    const locationEnabled = (await Location.getProviderStatusAsync()).locationServicesEnabled;
+    if (!locationEnabled) {
+        return new Error("Location services disabled");
+    }
+}
 
 export function getSizing(data, ctx, decPlaces = 100) {
 
@@ -146,7 +161,7 @@ export async function findAddress(address, coords) {
     if (address) {
         return address;
     }
-
+    ableToLocate();
     let res = await Location.reverseGeocodeAsync({ latitude: coords[0], longitude: coords[1] });
     return res;
 }
