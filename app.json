@@ -3,7 +3,7 @@
     "sdkVersion": "29.0.0",
     "name":"Prayer Times React",
     "slug":"prayers",
-    "icon":"icon.png",
+    "icon":"./src/assets/images/icon.png",
     "description": "A Mobile, React-Native, Muslim Prayer Times Notification & Viewing Application",
     "packagerOpts": {
       "assetExts": ["db","sql","sqlite"]

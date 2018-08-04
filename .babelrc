@@ -19,6 +19,7 @@
         "alias": {
           "@common": "./src/common",
           "@styles": "./src/common/styles",
+          "@assets":"./src/assets",
           "@actionTypes":"./src/action-types",
           "@actionCreators":"./src/action-creators"
           
