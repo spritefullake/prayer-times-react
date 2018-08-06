@@ -20,9 +20,12 @@
           "@common": "./src/common",
           "@styles": "./src/common/styles",
           "@assets":"./src/assets",
+          "@images":"./src/assets/images",
           "@actionTypes":"./src/action-types",
-          "@actionCreators":"./src/action-creators"
-          
+          "@actionCreators":"./src/action-creators",
+
+          "^@containers/(.+)": "./src/Components/\\1/container.js",
+          "^@components/(.+)": "./src/Components/\\1/main.js"
         }
       }
     ]
