@@ -28,9 +28,7 @@ export default class SurahSearch extends React.Component {
 
 
                         style={{
-                            position: "absolute",
-                            width: "100%",
-                            bottom: 0,
+                            
                             flexDirection: "row",
                             justifyContent: "center",
                             alignItems: "center",

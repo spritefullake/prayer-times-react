@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { DateTime, Interval } from 'luxon'
 import { Button, Icon } from 'react-native-elements'
+import { sharp } from '@styles'
 
 import SText from '@common/SText'
 
@@ -31,7 +32,7 @@ export default class ChartDisplay extends React.Component {
 
                         buttonStyle={
                             {
-                                backgroundColor: "rgb(47, 153, 18)",
+                                backgroundColor: sharp,
                                 alignSelf: "stretch", flex: 1
                             }}
                         

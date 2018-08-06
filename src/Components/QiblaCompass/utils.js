@@ -78,3 +78,9 @@ function findBearingBetween(lat1, lon1, lat2, lon2) {
 export function findQiblaBearing(coords){
     return findBearingBetween(...coords,...KAABA_COORDS);
 }
+
+export function prettyBearing(bearing){
+    //since findQiblaBearing returns a North of East bearing
+    //we need to rotate it to turn it into a East of North bearing
+    return 90 - (bearing * 180 / Math.PI + 90);
+}

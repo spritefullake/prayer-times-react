@@ -11,12 +11,12 @@ import { PersistGate } from 'redux-persist/integration/react'
 
 import { appStore, persistor } from './src/persist'
 
-import $PrayerView from './src/Components/PrayerView/container'
-import $CoordPrompt from "./src/Components/CoordPrompt/container"
-import { SearchBar } from 'react-native-elements'
-import $SurahSearch from './src/Components/SurahSearch/container'
-import $QiblaCompass from './src/Components/QiblaCompass/container'
+import $PrayerView from '@containers/PrayerView'
+import $CoordPrompt from "@containers/CoordPrompt"
+import $SurahSearch from '@containers/SurahSearch'
+import $QiblaCompass from '@containers/QiblaCompass'
 
+import { SearchBar } from 'react-native-elements'
 export default class App extends React.Component {
   render() {
 
@@ -42,12 +42,17 @@ export default class App extends React.Component {
 
 
             <$PrayerView style={{ flex: 1 }} />
-
+            
+            
+            
+            
             <$SurahSearch/>
 
-            <$QiblaCompass/>
+            
 
           </View>
+
+          <$QiblaCompass style={{ position: "absolute", top: 30, left: "3%"}}/>
 
         </PersistGate>
       </Provider>

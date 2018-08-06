@@ -6,6 +6,7 @@ export const
 
     glassyDark = "rgba(0, 0, 0, 0.8)",
 
+    sharp      = "rgb(47, 153, 18)",
     accent1    = "rgb(115, 229, 79)",
     accent2    = "rgb(151, 201, 80)",
     deep1      = "rgb(93, 124, 49)",
