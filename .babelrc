@@ -25,7 +25,8 @@
           "@actionCreators":"./src/action-creators",
 
           "^@containers/(.+)": "./src/Components/\\1/container.js",
-          "^@components/(.+)": "./src/Components/\\1/main.js"
+          "^@components/(.+)": "./src/Components/\\1/main.js",
+          "^@screens/(.+)": "./src/Screens/\\1.js"
         }
       }
     ]

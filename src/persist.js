@@ -21,16 +21,17 @@ const initialState = ({
 
     address: null,
 
-    //if the prompt to change the
-    //coordinates manually is visible
-    coordPromptVisible: false,
-
     //control if the Quran View / WebView Shows
     quranViewVisible: false,
 
     //initially we show the PrayerChart
     //in a perspective list form
     listType: "perspective",
+
+    //for the QiblaCompass
+    accuracy: null,
+    heading: null,
+    subscription: {remove: () => null}
 
 });
 
@@ -41,6 +42,7 @@ const persistConfig = {
     storage: createSecureStore(),
     stateReconciler: autoMergeLevel2,
     debug: true,
+    blacklist: ['heading','accuracy','subscription']
 };
 
 const pPreducer = persistReducer(persistConfig, rootReducer)

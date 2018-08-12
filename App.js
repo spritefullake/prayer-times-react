@@ -16,17 +16,39 @@ import $CoordPrompt from "@containers/CoordPrompt"
 import $SurahSearch from '@containers/SurahSearch'
 import $QiblaCompass from '@containers/QiblaCompass'
 
-import { SearchBar } from 'react-native-elements'
+
+import { createStackNavigator } from 'react-navigation'
+
+
+import { GestureHandler, Vibration } from 'expo'
+const { TapGestureHandler, LongPressGestureHandler, State } = GestureHandler
+
+import HomeScreen from '@screens/Home'
+import QiblaScreen from '@screens/Qibla'
+import CoordPromptScreen from '@screens/Coord'
+import CalibrateScreen from '@screens/Calibrate'
+
+const RootStack = createStackNavigator({
+  Home: {
+    screen: HomeScreen,
+  },
+  Qibla: {
+    screen: QiblaScreen,
+  },
+  Coord: {
+    screen: CoordPromptScreen,
+  },
+  Calibrate: {
+    screen: CalibrateScreen,
+  }
+},
+  {
+    initialRouteName: 'Home',
+  }
+)
+
 export default class App extends React.Component {
   render() {
-
-    //
-    //<CoordPrompt />
-    //using short circuit technique...
-    //don't render until ready 
-    //setting the outermost view {flex: 1}
-    //is important so the entire app spreads
-    //the length of the screen
 
     //Provider & PersistGate 'magically' provide 
     //the props from redux and redux-persist, respectively
@@ -34,26 +56,7 @@ export default class App extends React.Component {
     return (
       <Provider store={appStore}>
         <PersistGate loading={null} persistor={persistor}>
-
-          <View style={{ flex: 1, marginTop: 60 }}>
-
-
-            <$CoordPrompt />
-
-
-            <$PrayerView style={{ flex: 1 }} />
-            
-            
-            
-            
-            <$SurahSearch/>
-
-            
-
-          </View>
-
-          <$QiblaCompass style={{ position: "absolute", top: 30, left: "3%"}}/>
-
+          <RootStack/>
         </PersistGate>
       </Provider>
 

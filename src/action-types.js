@@ -32,6 +32,9 @@ export const SWITCH_LIST = "Switching list to ";
 export const SHOW_QURAN_VIEW = "Showing the quran WebView";
 export const HIDE_QURAN_VIEW = "Hiding the quran WebView";
 
+export const COMPASS_STARTED = "Started watching compass heading";
+export const COMPASS_SUBSCRIBED = "Compass subscribed to heading"
+export const COMPASS_ENDED = "Ended watching compass heading";
 //error types
 export const LOCATION_OFF = "Location is turned off or unable to get location";
 export const MANUAL_ENTRY = "Coordinates entered manually";
