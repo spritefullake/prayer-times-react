@@ -4,6 +4,10 @@ import { fetchCoords, fetchAddress } from "@actionCreators"
 
 import  GeoRefresh  from './main'
 
+
+import { withNavigation } from 'react-navigation';
+
+
 const mapStateToProps = (state,ownProps) => ({
     ...ownProps
 })
@@ -17,9 +21,10 @@ const mapDispatchToProps = (dispatch,ownProps) => ({
         dispatch(fetchAddress());
     },
     showPrompt: () => {
-        dispatch(showPrompt());
+        //navigate to the coords prompt when triggered
+        ownProps.navigation.navigate('Coord');
     }
 })
 
 
-export default $GeoRefresh = connect(mapStateToProps, mapDispatchToProps)(GeoRefresh)
+export default $GeoRefresh = withNavigation(connect(mapStateToProps, mapDispatchToProps)(GeoRefresh))

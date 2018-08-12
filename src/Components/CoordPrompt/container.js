@@ -13,14 +13,12 @@ const mapStateToProps = ({coords, coordPromptVisible}, ownProps) => {
         //coords currently (aka coords = null)
         //then we use [null,null] instead
         coords: coords || [null,null],
-        modalVisible: coordPromptVisible
     }   
 };
 const mapDispatchToProps = (dispatch,ownProps) => {
     return {
         reflowCoordinates: (coords) => dispatch(reflowCoordinates(coords)),
         fetchAddress: () => dispatch(fetchAddress()),
-        hidePrompt: () => dispatch(hidePrompt())
     }
 };
 

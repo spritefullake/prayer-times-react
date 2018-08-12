@@ -5,9 +5,11 @@ import { Button, Icon } from 'react-native-elements'
 import { GestureHandler } from 'expo'
 const { LongPressGestureHandler, State } = GestureHandler;
 
+
+
 export default class GeoRefresh extends React.Component {
     state = {
-        size: 26
+        size: 30
     }
     render() {
         return (
