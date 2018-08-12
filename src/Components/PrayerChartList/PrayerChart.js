@@ -89,7 +89,7 @@ export default class PrayerChart extends React.Component {
                     />)
                 })}
 
-                <NowMarker interval={chartSpan} />
+                {isPerspective ? <NowMarker interval={chartSpan} /> : null}
 
 
 

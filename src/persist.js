@@ -26,7 +26,7 @@ const initialState = ({
 
     //initially we show the PrayerChart
     //in a perspective list form
-    listType: "perspective",
+    listType: "normal",
 
     //for the QiblaCompass
     accuracy: null,
