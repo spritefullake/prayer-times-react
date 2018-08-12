@@ -7,7 +7,7 @@ export default class ListSwitch extends React.Component {
     render() {
         //delays render until the icon is choosen
         const _icon = this.chooseIcon();
-        const ready = this.props.switchListType && _icon;
+        const ready = this.props.listType && _icon;
 
         return ready && (
             <Button
