@@ -39,7 +39,10 @@ export default class HomeScreen extends React.Component {
               
               <$QiblaCompass 
               //ensure the ref has a wrapped instance since this is a connected component
-              ref={ref => ref ? this.compass = ref.getWrappedInstance() : null}/>
+              //since we used withNavigation on this connected component, onRef is required
+              //instead of ref; and since the connected component wraps the instance,
+              //use #getWrappedInstance on the ref
+              onRef={ref => ref ? this.compass = ref.getWrappedInstance() : null}/>
             </View>
           </TapGestureHandler>
   

@@ -3,6 +3,12 @@ import QiblaCompass from './main'
 
 import { startWatchingHeading, endWatchingHeading } from './action-creators'
 
+import { withNavigation } from 'react-navigation'
+
+import { GestureHandler } from 'expo'
+
+const { State } = GestureHandler;
+
 const mapStateToProps = ({coords, heading, accuracy, subscription},ownProps) => {
     return {
         ...ownProps,
@@ -15,8 +21,19 @@ const mapStateToProps = ({coords, heading, accuracy, subscription},ownProps) => 
 const mapDispatchToProps = (dispatch,ownProps) => {
     return {
         startWatching: () => dispatch(startWatchingHeading()),
-        endWatching: () => dispatch(endWatchingHeading())
+        endWatching: () => dispatch(endWatchingHeading()),
+
+
+
+        showCalibrate: ({ nativeEvent }) => {
+            dispatch((dispatch,getState) => {
+            console.log(" THE OWN PROPS IS    : ",getState())
+            if (nativeEvent.state == State.ACTIVE) {
+                ownProps.navigation.navigate('Calibrate',{accuracy: getState().accuracy});
+            }
+        })
+        }
     }
 }
 
-export default $QiblaCompass = connect(mapStateToProps,mapDispatchToProps,null,{ withRef: true })(QiblaCompass);
+export default $QiblaCompass = withNavigation(connect(mapStateToProps,mapDispatchToProps,null,{ withRef: true })((QiblaCompass)));

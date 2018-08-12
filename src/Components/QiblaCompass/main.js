@@ -5,15 +5,29 @@ import { View, Image, Vibration } from 'react-native'
 import { ableToLocate } from '@common/utils'
 import { findQiblaBearing, prettyBearing } from './utils'
 
-const { TapGestureHandler } = GestureHandler;
+const { TapGestureHandlerm, LongPressGestureHandler, State } = GestureHandler;
 
 
 export default class QiblaCompass extends React.Component {
     constructor(props) {
-        super(props);
+        super(props); 
+
+        this.state = {
+            inaccurate: false
+        }
+
         this.props.startWatching();
+
+        setInterval(() => {
+            if(this.props.accuracy < 3){
+            this.setState({ inaccurate: true })
+            }
+        }, 3000);
+        
+    
     }
 
+   
     render() {
         const bearing = findQiblaBearing(this.props.coords);
         const pretty = Math.round(prettyBearing(bearing) * 100) / 100;
@@ -33,14 +47,21 @@ export default class QiblaCompass extends React.Component {
         const width = 90.5 * 0.75 * scaling.scale, height = 97 * 0.75 * scaling.scale;
         const { background, pointer, needle } = styles(width, height);
 
+      
         //rotate the needle to the Qibla bearing
         //pretty - heading means the qibla bearing moves
         //as the heading changes but can also line up with 
         //the direction the device is pointed in!
+
+        const warning = this.state.inaccurate ? { backgroundColor: "red" } : {}
+
         return ready && (
+            <LongPressGestureHandler 
+            onHandlerStateChange={this.props.showCalibrate}
+            >
             <View>
 
-                <View style={{ flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
+                <View style={[{ flexDirection: "row", justifyContent: "center", alignItems: "center" },warning]}>
                     <View style={{ alignSelf: "center", height, width }}>
                         <Image style={{ ...pointer }}
                             source={require("@images/compass_pointer.png")} />
@@ -56,7 +77,7 @@ export default class QiblaCompass extends React.Component {
                 </View>
             </View>
 
-
+            </LongPressGestureHandler>
 
 
         )
@@ -66,9 +87,6 @@ export default class QiblaCompass extends React.Component {
         this.props.endWatching();
     }
 }
-
-
-
 
 
 const styles = (width, height) => {
