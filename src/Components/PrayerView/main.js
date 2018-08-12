@@ -3,17 +3,19 @@ import { StyleSheet, View, Dimensions, FlatList, Text } from 'react-native'
 import { DateTime, Interval } from 'luxon'
 
 
-import $PrayerTimer from '../PrayerTimer/container'
-import $ChartDisplay from '../ChartDisplay/container'
-import $ListSwitch from '../ListSwitch/container'
-import $PrayerChartList from '../PrayerChartList/container'
+import $PrayerTimer from '@containers/PrayerTimer'
+import $ChartDisplay from '@containers/ChartDisplay'
+import $ListSwitch from '@containers/ListSwitch'
+import $PrayerChartList from '@containers/PrayerChartList'
+import $LocationBar from '@containers/LocationBar'
+
 //component holds all the prayer related components
 //will be hooked into redux container
 export default class PrayerView extends React.Component {
   constructor(props) {
     super(props)
 
-    this.state = { width: null, date: DateTime.local()}
+    this.state = { date: DateTime.local() }
 
     this.chartsFlatList = React.createRef();
 
@@ -21,8 +23,8 @@ export default class PrayerView extends React.Component {
     this.props.fetchAddress();
   }
 
-  rollNextDay(){
-    this.setState({date: DateTime.local()})
+  rollNextDay() {
+    this.setState({ date: DateTime.local() })
   }
 
   render() {
@@ -34,22 +36,27 @@ export default class PrayerView extends React.Component {
 
     return ready && (
       <View style={this.props.style}>
+       
+        <$LocationBar/>
         <$PrayerTimer
           onDayChange={this.rollNextDay}
           date={this.state.date}
         />
-        <$ListSwitch/>
-         <$ChartDisplay
-         //using _data instead of just the flatlist ref
-         //prevents the component from relying purely on
-         //the ref for data in render; instead, the data
-         //can be waited on from the parent rather than
-         //introducing extreme sibling dependency
-        data={_data} scroller={this.chartsFlatList} /> 
-
-        <$PrayerChartList 
-        listRef={ref => this.chartsFlatList = ref} data={_data}
+         <$ListSwitch />
+        <$ChartDisplay
+          //using _data instead of just the flatlist ref
+          //prevents the component from relying purely on
+          //the ref for data in render; instead, the data
+          //can be waited on from the parent rather than
+          //introducing extreme sibling dependency
+          data={_data} scroller={this.chartsFlatList} />
+   
+       
+     
+        <$PrayerChartList
+          listRef={ref => this.chartsFlatList = ref} data={_data}
         />
+     
       </View>
 
     ) || null

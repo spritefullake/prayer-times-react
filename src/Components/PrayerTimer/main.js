@@ -46,22 +46,6 @@ export default class PrayerTimer extends React.Component {
 
 
         return ready && (
-            <View style={[timerStyle.cont]}>
-
-
-                <View style={{ flex: 2, flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
-                    <View style={{ flex: 1, alignItems: "flex-end"}} > 
-                        <SearchLauncher/>
-                    </View>
-
-                    <SText style={{ flex: 3, textAlign: "center"}}>Prayer Times in {this.props.address}</SText>
-
-                    <View style={{flex: 1, alignItems: "flex-start"}}> 
-                        <$GeoRefresh/>
-                    </View>
-   
-                </View>
-
                 <View style={timerStyle.nowWrapper}>
                     <View style={timerStyle.now}>
                         <SText>{this.formatNow()}</SText>
@@ -74,8 +58,6 @@ export default class PrayerTimer extends React.Component {
 
                     </View>
                 </View>
-                
-            </View>
         ) || null
 
     }
