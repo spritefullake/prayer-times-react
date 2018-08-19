@@ -26,6 +26,7 @@
 
           "^@containers/(.+)": "./src/Components/\\1/container.js",
           "^@components/(.+)": "./src/Components/\\1/main.js",
+          "^@@(.+)": "./src/Components/\\1",
           "^@screens/(.+)": "./src/Screens/\\1.js"
         }
       }

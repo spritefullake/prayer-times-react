@@ -31,7 +31,8 @@ export default class HomeScreen extends React.Component {
           <TapGestureHandler 
              onHandlerStateChange={({ nativeEvent }) => {
               if (nativeEvent.state == State.ACTIVE) {
-                  this.props.navigation.navigate('Qibla');
+                  this.props.navigation.navigate('Qibla',
+                  { coords: this.compass.props.coords });
               }
           }}
           >
