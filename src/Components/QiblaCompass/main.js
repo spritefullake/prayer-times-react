@@ -73,7 +73,6 @@ export default class QiblaCompass extends React.Component {
                         </View>
 
                     </View>
-                    <SText>Bearing: { pretty }</SText>
                 </View>
 
             </LongPressGestureHandler>

@@ -27,10 +27,14 @@ import HomeScreen from '@screens/Home'
 import QiblaScreen from '@screens/Qibla'
 import CoordPromptScreen from '@screens/Coord'
 import CalibrateScreen from '@screens/Calibrate'
+import SettingsScreen from '@screens/Settings'
 
 const RootStack = createStackNavigator({
   Home: {
     screen: HomeScreen,
+  },
+  Settings: {
+    screen: SettingsScreen,
   },
   Qibla: {
     screen: QiblaScreen,

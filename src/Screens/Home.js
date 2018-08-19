@@ -11,8 +11,20 @@ import { GestureHandler } from 'expo'
 
 const { TapGestureHandler, State } = GestureHandler
 
+import { Icon } from 'react-native-elements'
+
 
 export default class HomeScreen extends React.Component {
+
+    static navigationOptions = ({navigation}) => {
+      return {
+        headerRight: (
+          <Icon name="settings" type="feather" reversed
+          onPress={() => navigation.navigate('Settings')}/>
+        )
+      }
+    }
+
     compass = null;
     render() {
       const margin = 30;
