@@ -26,3 +26,4 @@ export function endWatchingHeading(){
         dispatch({type: COMPASS_ENDED});
     }
 }
+

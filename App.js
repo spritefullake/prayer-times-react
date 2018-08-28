@@ -19,25 +19,29 @@ import $QiblaCompass from '@containers/QiblaCompass'
 
 import { createStackNavigator } from 'react-navigation'
 
+import { startWatchingHeading, endWatchingHeading } from '@actionCreators'
 
 import { GestureHandler, Vibration } from 'expo'
 const { TapGestureHandler, LongPressGestureHandler, State } = GestureHandler
 
-import HomeScreen from '@screens/Home'
-import QiblaScreen from '@screens/Qibla'
+import $HomeScreen from '@screens/Home'
+import $QiblaScreen from '@screens/Qibla'
 import CoordPromptScreen from '@screens/Coord'
 import CalibrateScreen from '@screens/Calibrate'
-import SettingsScreen from '@screens/Settings'
+import $SettingsScreen from '@screens/Settings'
+
+import { Icon } from 'react-native-elements'
+import { accent1, mainHeader } from '@styles'
 
 const RootStack = createStackNavigator({
   Home: {
-    screen: HomeScreen,
+    screen: $HomeScreen,
   },
   Settings: {
-    screen: SettingsScreen,
+    screen: $SettingsScreen,
   },
   Qibla: {
-    screen: QiblaScreen,
+    screen: $QiblaScreen,
   },
   Coord: {
     screen: CoordPromptScreen,
@@ -48,12 +52,15 @@ const RootStack = createStackNavigator({
 },
   {
     initialRouteName: 'Home',
+    navigationOptions: {
+        headerStyle: { backgroundColor: mainHeader },
+    }
   }
 )
 
 export default class App extends React.Component {
-  render() {
 
+  render() {
     //Provider & PersistGate 'magically' provide 
     //the props from redux and redux-persist, respectively
 

@@ -10,4 +10,5 @@ export const
     accent1    = "rgb(115, 229, 79)",
     accent2    = "rgb(151, 201, 80)",
     deep1      = "rgb(93, 124, 49)",
-    header1    = "#97E589";
+    header1    = "#97E589",
+    mainHeader = "#1CE678";

@@ -14,19 +14,20 @@ export default class QiblaCompass extends React.Component {
         super(props);
 
         this.state = {
-            inaccurate: false
+            inaccurate: false,
+            validator: this.checkAccuracy(),
         }
 
-        this.props.startWatching();
-        this.checkAccuracy();
-
+        //no async keyword allowed on constructor
+   
+       
 
     }
 
 
     render() {
         const bearing = findQiblaBearing(this.props.coords);
-        const pretty = Math.round(prettyBearing(bearing) * 100) / 100 - 65 //idk why this offset of 65 is needed;
+        const pretty = Math.round(prettyBearing(bearing) * 100) / 100 
         const heading = Math.round(this.props.heading);
 
         //degree range within which the qibla compass
@@ -35,7 +36,7 @@ export default class QiblaCompass extends React.Component {
         const tolerance = 3;
         Math.abs(heading - pretty) <= tolerance ? Vibration.vibrate(500) : null;
 
-        const ready = (this.props.heading && this.props.accuracy && this.props.coords);
+        const ready = (this.props.heading && this.props.accuracy && this.props.coords && this.props.subscription.remove);
 
         const scaling = this.props.fullSize ? { scale: 4 } : { scale: 1 };
 
@@ -82,12 +83,18 @@ export default class QiblaCompass extends React.Component {
     }
 
     componentWillUnmount() {
-        this.props.endWatching();
+        //remember to cancel your subscriptions!
+        //it turned out that forgetting to clearInterval
+        //resulted in several forceUpdate errors
+
+       this.props.endWatching()
+       clearInterval(this.state.validator)
+    
     }
 
     //continuously update the compass to indicate (in)accuracy
     checkAccuracy() {
-        setInterval(() => {
+        return setInterval(() => {
             if (this.props.accuracy < 3) {
                 this.setState({ inaccurate: true })
             }

@@ -31,7 +31,8 @@ const initialState = ({
     //for the QiblaCompass
     accuracy: null,
     heading: null,
-    subscription: {remove: () => null}
+    subscription: {remove: () => null},
+    compassDisabled: false,
 
 });
 

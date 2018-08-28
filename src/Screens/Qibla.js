@@ -4,10 +4,17 @@ import { MapView, GestureHandler } from 'expo'
 import { Polyline, Overlay } from 'react-native-maps'
 import { KAABA_COORDS } from '@@QiblaCompass/utils'
 import $QiblaCompass from '@containers/QiblaCompass'
+import SText from '@common/SText'
+
+import { connect } from 'react-redux'
+
+import { NavigationEvents } from 'react-navigation'
+
+import { startWatchingHeading, endWatchingHeading } from '@@QiblaCompass/action-creators'
 
 const { TapGestureHandler, State} = GestureHandler
 
-export default class QiblaScreen extends React.Component {
+class QiblaScreen extends React.Component {
 
   state = {
     fullMap: false
@@ -27,12 +34,26 @@ export default class QiblaScreen extends React.Component {
     };
 
     const mapGrow = this.state.fullMap ? { height: "100%"} : { height: "50%" };
-
+   
     return (
       <View>
-        
+
+
+    <NavigationEvents
+    //start the data collection for the compass and end it when not in use
+                onWillBlur={() => this.props.endWatching()}
+                //did focus means the component has been mounted
+                //so starting to watch is 100% ok!
+                onDidFocus={() => this.props.startWatching()}/>
+       
         { //hide the compass if the map is to take up the entire screen
-          this.state.fullMap ? null: <$QiblaCompass fullSize={true} /> }
+          this.state.fullMap ? null: 
+          <View>
+            
+            <$QiblaCompass fullSize={true} />
+            <SText>Current Heading: {this.props.heading} degrees</SText>
+          </View> 
+          }
 
 <View>
         <MapView
@@ -66,3 +87,17 @@ export default class QiblaScreen extends React.Component {
     )
   }
 }
+
+
+const mapStateToProps = ({ heading }) => {
+  return {
+    heading
+  }
+}
+
+const mapDispatchToProps = (dispatch) => ({
+  startWatching: () => dispatch(startWatchingHeading()),
+  endWatching: () => dispatch(endWatchingHeading()),
+})
+
+export default $Qibla = connect(mapStateToProps,mapDispatchToProps,null,{ withRef: true })(QiblaScreen) 

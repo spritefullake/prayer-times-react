@@ -8,7 +8,7 @@ import {
     SHOW_COORD_PROMPT, HIDE_COORD_PROMPT,
     SWITCH_LIST,
     SHOW_QURAN_VIEW, HIDE_QURAN_VIEW,
-    COMPASS_STARTED, COMPASS_SUBSCRIBED, COMPASS_ENDED,
+    COMPASS_STARTED, COMPASS_SUBSCRIBED, COMPASS_ENDED, COMPASS_TOGGLED,
 } from "./action-types";
 
 
@@ -29,7 +29,7 @@ export const rootReducer = (state = initialState, action) => {
 
         listType,
 
-        heading, accuracy, subscription
+        heading, accuracy, subscription, compassDisabled
     } = action;
 
 
@@ -115,6 +115,12 @@ export const rootReducer = (state = initialState, action) => {
                 //only one compass can be subscribed 
                 //to heading readings at any time
                 subscription: {remove: () => null},
+            }
+        
+        case COMPASS_TOGGLED:
+            return {
+                ...state,
+                compassDisabled,
             }
 
         default:

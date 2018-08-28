@@ -9,21 +9,20 @@ import { GestureHandler } from 'expo'
 
 const { State } = GestureHandler;
 
-const mapStateToProps = ({coords, heading, accuracy, subscription},ownProps) => {
+const mapStateToProps = ({coords, heading, accuracy, subscription, compassDisabled},ownProps) => {
     return {
         ...ownProps,
         coords,
         heading,
         accuracy,
         subscription,
+        compassDisabled,
     }
 }
 const mapDispatchToProps = (dispatch,ownProps) => {
     return {
         startWatching: () => dispatch(startWatchingHeading()),
         endWatching: () => dispatch(endWatchingHeading()),
-
-
 
         showCalibrate: ({ nativeEvent }) => {
             dispatch((dispatch,getState) => {

@@ -35,6 +35,8 @@ export const HIDE_QURAN_VIEW = "Hiding the quran WebView";
 export const COMPASS_STARTED = "Started watching compass heading";
 export const COMPASS_SUBSCRIBED = "Compass subscribed to heading"
 export const COMPASS_ENDED = "Ended watching compass heading";
+
+export const COMPASS_TOGGLED = "Toggled the compass (dis)abled state";
 //error types
 export const LOCATION_OFF = "Location is turned off or unable to get location";
 export const MANUAL_ENTRY = "Coordinates entered manually";

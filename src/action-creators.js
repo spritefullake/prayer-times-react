@@ -1,7 +1,8 @@
 //this file holds globally used action creators
 
 import { FETCHING_COORDS, FETCHING_COORDS_FAILED, COORDS_PRESENT, FETCHED_COORDS,
-    FINDING_ADDRESS, FIND_ADDRESS, FINDING_ADDRESS_FAILED, ADDRESS_FOUND, ADDRESS_PRESENT } from "@actionTypes";
+    FINDING_ADDRESS, FIND_ADDRESS, FINDING_ADDRESS_FAILED, ADDRESS_FOUND, ADDRESS_PRESENT,
+    COMPASS_TOGGLED, COMPASS_STARTED, COMPASS_SUBSCRIBED, COMPASS_ENDED } from "@actionTypes";
 import { Location, Permissions } from 'expo';
 import { AsyncStorage } from 'react-native';
 
@@ -70,7 +71,7 @@ export function fetchAddress({persist} = {persist: false}){
     
     return async (dispatch,getState) => {
 
-        //exist early if we want to avoid
+        //exit early if we want to avoid
         //making an expensive reverse geocode operation
         if(persist && getState().address){
             dispatch({ type: ADDRESS_PRESENT })
@@ -101,3 +102,37 @@ export function fetchAddress({persist} = {persist: false}){
     }
 
 }
+
+export function toggleCompassDisabled(status){
+    return {
+        type: COMPASS_TOGGLED,
+        compassDisabled: !status,
+    }
+}
+
+
+function round(num){
+    const precision = 1000;
+    return Math.round(num * precision) / precision;
+}
+
+export function startWatchingHeading(){
+    return async dispatch => {
+
+        ableToLocate().then(async () => {
+            const subscription = await Location.watchHeadingAsync(res => {
+                dispatch({ type: COMPASS_STARTED, heading: round(res.trueHeading), accuracy: round(res.accuracy) })
+            });
+
+            dispatch({type: COMPASS_SUBSCRIBED, subscription})
+        })
+    }
+}
+
+export function endWatchingHeading(){
+    return (dispatch,getState) => {
+        getState().subscription.remove();
+        dispatch({type: COMPASS_ENDED});
+    }
+}
+
