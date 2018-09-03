@@ -58,6 +58,7 @@ export default class PrayerChartList extends React.Component{
                 coords={this.props.coords}
                 date={item}
                 listType={this.props.listType}
+                config={this.props.prayerConfig}
               />
             )
 

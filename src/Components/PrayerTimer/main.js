@@ -1,16 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { View } from 'react-native';
 
-import { DateTime, Interval } from 'luxon'
+import { DateTime } from 'luxon'
 
 import SText from '@common/SText'
-import { findAddress } from '@common/utils'
 
-import $GeoRefresh from '../GeoRefresh/container'
 
-import { Button, Icon } from 'react-native-elements'
 
-import SearchLauncher from '../SearchLauncher/main'
 
 export default class PrayerTimer extends React.Component {
     constructor(props) {

@@ -28,6 +28,10 @@ const initialState = ({
     //in a perspective list form
     listType: "normal",
 
+    //any extra user configurations for
+    //how the Prayer Chart **data** should be 
+    prayerConfig: {},
+
     //for the QiblaCompass
     accuracy: null,
     heading: null,

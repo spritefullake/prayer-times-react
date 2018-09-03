@@ -32,17 +32,23 @@ class SettingsScreen extends React.Component {
         const end = this.props.endWatching;
         return ready && (
             <View style={{ flex: 1 }}>
-                
+
                 <FlatList
 
                     data={[
                         { key: 'List Mode', component: $ListSwitch },
-                        { key: 'Calculation Method' },
+                        {
+                            key: 'Calculation Method', component: props =>
+                                <SText>
+                                    the config is: {this.props.prayerConfig.format}
+                                </SText>
+                        },
                         {
                             key: 'Automatic Compass',
                             component: props => ({
-                                render: () => <SettingsCheck checked={!this.props.compassDisabled} 
-                                onPress={() => this.props.toggleCompass(this.props.compassDisabled)}/>
+                                render: () => <SettingsCheck
+                                    checked={!this.props.compassDisabled}
+                                    onPress={() => this.props.toggleCompass(this.props.compassDisabled)} />
                             })
                         },
 
@@ -53,7 +59,7 @@ class SettingsScreen extends React.Component {
 
                                 <SText style={{ fontSize: 30, }}>{item.key}</SText>
 
-                                { item.component ? <item.component/> : null}
+                                {item.component ? <item.component /> : null}
 
                             </View>)
                     }
@@ -71,15 +77,17 @@ class SettingsScreen extends React.Component {
     }
 }
 
-const mapStateToProps = ({ heading, subscription, compassDisabled }) => ({
-        heading,
-        subscription,
-        compassDisabled,
+const mapStateToProps = ({ heading, subscription, compassDisabled, prayerConfig }) => ({
+    heading,
+    subscription,
+    compassDisabled,
+
+    prayerConfig,
 })
 
 const mapDispatchToProps = (dispatch) => ({
-        endWatching: () => dispatch(endWatchingHeading()),
-        toggleCompass: status => dispatch(toggleCompassDisabled(status)),
+    endWatching: () => dispatch(endWatchingHeading()),
+    toggleCompass: status => dispatch(toggleCompassDisabled(status)),
 })
 
 export default $SettingsScreen = connect(mapStateToProps, mapDispatchToProps)(SettingsScreen);

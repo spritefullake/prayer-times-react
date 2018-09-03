@@ -29,6 +29,7 @@ import $QiblaScreen from '@screens/Qibla'
 import CoordPromptScreen from '@screens/Coord'
 import CalibrateScreen from '@screens/Calibrate'
 import $SettingsScreen from '@screens/Settings'
+import QuranWebScreen from '@screens/QuranWeb'
 
 import { Icon } from 'react-native-elements'
 import { accent1, mainHeader } from '@styles'
@@ -48,6 +49,9 @@ const RootStack = createStackNavigator({
   },
   Calibrate: {
     screen: CalibrateScreen,
+  },
+  QuranWeb: {
+    screen: QuranWebScreen
   }
 },
   {

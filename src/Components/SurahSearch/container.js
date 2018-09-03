@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import { makeQuranURI, quranApiURL } from '@common/utils'
 import { showQuranView, hideQuranView } from './action-creators'
+import { withNavigation } from 'react-navigation';
 
 import SurahSearch from './main'
 
@@ -15,10 +16,12 @@ const mapStateToProps = ({quranViewVisible},ownProps) => {
 
 const mapDispatchToProps = (dispatch,ownProps) => {
     return {
-        show: () => dispatch(showQuranView()),
-        hide: () => dispatch(hideQuranView()),
+        show: () => ownProps.navigation.navigate('QuranWeb', {
+            defaultURL: quranApiURL
+        }),
+        hide: () => ownProps.navigation.goBack(),
         makeURI: query => makeQuranURI(query),
     }
 }
 
-export default $SurahSearch = connect(mapStateToProps,mapDispatchToProps)(SurahSearch);
+export default $SurahSearch = withNavigation(connect(mapStateToProps,mapDispatchToProps)(SurahSearch));

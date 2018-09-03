@@ -9,12 +9,13 @@ import PrayerChartList from './main'
 //two important variables
 //that connect the redux 
 //state to the react component props
-const mapStateToProps = ({ coords, index, listType }, ownProps) => {
+const mapStateToProps = ({ coords, index, listType, prayerConfig }, ownProps) => {
     return {
         ...ownProps,
         coords,
         index,
         listType,
+        prayerConfig,
     }
 };
 

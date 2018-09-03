@@ -39,7 +39,7 @@ export default class PrayerChart extends React.Component {
                 date: this.props.date,
                 coords: this.props.coords,
                 ctx: chartSpan,
-                dataFunction: getData
+                dataFunction: (date,coords) => getData(date,coords,this.props.config)
             });
 
         const pData = (this.props.date && this.props.coords ? rd : mockData).map(i => {

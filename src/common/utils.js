@@ -42,11 +42,7 @@ export function getSizing(data, ctx, decPlaces = 100) {
 export function nextPrayer({ date, coords }) {
 
     //first calculate all the next prayer times
-    const data = getData(
-        date.toJSDate(), coords,
-        Interval.fromDateTimes(DateTime.local().startOf('day'),
-            DateTime.local().endOf('day'))
-    );
+    const data = getData(date.toJSDate(), coords);
 
     /// get the prayer that comes next 
     let names = data.map(i => i.name).concat(["fajr"]); //gotta add next day fajr
@@ -90,7 +86,7 @@ export function renderPrayerData({ date, coords, ctx, dataFunction } = dummyRend
     //ctx is a luxon interval
     let data = dataFunction(date.toJSDate(), coords)
 
-    //orepending the isha that ends at fajr 
+    //prepending the isha that ends at fajr 
     //during the same day (it actually started 
     //on the previous day but extends into the next day)
 

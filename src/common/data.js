@@ -2,9 +2,9 @@
 const PrayerTimes = require('prayer-times')
 import { DateTime, Interval } from 'luxon'
 import { Dimensions } from 'react-native'
-export default function getData(date, coords) {
+export default function getData(date, coords,config = {}) {
 
-  const data = processPrayers(date, coords)
+  const data = processPrayers({date, coords,...config})
 
 
   //mapping intervals; remember we tacked  
@@ -24,11 +24,11 @@ export default function getData(date, coords) {
 
 
 
-function processPrayers(date, coords) {
+function processPrayers({ date, coords, timezone= 'auto', dst='auto',format='24h' }) {
 
   //important!
   //format the times in 24 hours format for this code to work correctly!
-  let times = (new PrayerTimes()).getTimes(date, coords, 'auto', 'auto', '24h');
+  let times = (new PrayerTimes()).getTimes(date, coords, timezone, dst, format);
 
   /*
   ORDER in this array is important because some prayers
