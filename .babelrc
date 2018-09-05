@@ -1,8 +1,35 @@
 {
-  "presets": ["babel-preset-expo"],
+  "presets": [
+    "babel-preset-expo"
+  ],
   "env": {
     "development": {
-      "plugins": ["transform-react-jsx-source"]
+      "plugins": [
+        "transform-react-jsx-source"
+      ]
     }
-  }
+  },
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "root": [
+          "./src"
+        ],
+        "alias": {
+          "@common": "./src/common",
+          "@styles": "./src/common/styles",
+          "@assets":"./src/assets",
+          "@images":"./src/assets/images",
+          "@actionTypes":"./src/action-types",
+          "@actionCreators":"./src/action-creators",
+
+          "^@containers/(.+)": "./src/Components/\\1/container.js",
+          "^@components/(.+)": "./src/Components/\\1/main.js",
+          "^@@(.+)": "./src/Components/\\1",
+          "^@screens/(.+)": "./src/Screens/\\1.js"
+        }
+      }
+    ]
+  ]
 }
